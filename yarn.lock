@@ -207,9 +207,9 @@
     uuid "^9.0.1"
 
 "@aws-sdk/client-route-53@^3.758.0":
-  version "3.758.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-route-53/-/client-route-53-3.758.0.tgz#778cc9d9a1e8f5c69a190637b1c10db204ab660d"
-  integrity sha512-NGeywbv/hqtv+yEQO1cq/ea0cEh1l7yapGwP0gzZm8G8D00KZi+ydr3iTQbZiZc4pAUKNLgk2B6/g5uUb63yHQ==
+  version "3.770.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-route-53/-/client-route-53-3.770.0.tgz#cefd5dc7a85b9dbde0f6e492a6d5a3f42923b761"
+  integrity sha512-+ZW4v7ziM5ew8PeTiCr2pQ7jYchiDWOKgx4LX10wJl3dY+zB15QwzODUtzLM/rOxKqjMvZBTRBkOwTCbMCVZgA==
   dependencies:
     "@aws-crypto/sha256-browser" "5.2.0"
     "@aws-crypto/sha256-js" "5.2.0"
@@ -981,18 +981,18 @@
     "@smithy/types" "^4.1.0"
     tslib "^2.6.2"
 
-"@aws-solutions-constructs/aws-lambda-dynamodb@^2.78.1":
-  version "2.78.1"
-  resolved "https://registry.yarnpkg.com/@aws-solutions-constructs/aws-lambda-dynamodb/-/aws-lambda-dynamodb-2.78.1.tgz#ae8702f501ccc78e1e7dd9fc4265186040ecd2ef"
-  integrity sha512-fITZRFZhy+zRMPPdoRrvp06+HYj0ug6I8gxmoU5esTV1oAfMFwIIB1JQ2vkJv9mcat9/L/jWZRwihDwLwv0vLw==
+"@aws-solutions-constructs/aws-lambda-dynamodb@^2.79.0":
+  version "2.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-solutions-constructs/aws-lambda-dynamodb/-/aws-lambda-dynamodb-2.79.0.tgz#ac1b13aca577f8ebdfed2e9c00c5f12db9052924"
+  integrity sha512-h4aOjkbqiaF0aJ7AKV6z9Y6Erdac0NqmR/7vUVX250hvsj+gxOVvUyHuGOhzPBHZVl+skLdGl5buyEhh1RBBHw==
   dependencies:
-    "@aws-solutions-constructs/core" "2.78.1"
+    "@aws-solutions-constructs/core" "2.79.0"
     constructs "^10.0.0"
 
-"@aws-solutions-constructs/core@2.78.1":
-  version "2.78.1"
-  resolved "https://registry.yarnpkg.com/@aws-solutions-constructs/core/-/core-2.78.1.tgz#4ab5d2eb83f94d2bbd2402042ce190dc4d919296"
-  integrity sha512-kCnrfYsS+YRGywqGsSDmMnO5g1/dSV+xfecBkt5G7h2NFcvvgsONNWdGgYt24I7dmeFMCGo0xquyfU/H2DdYPQ==
+"@aws-solutions-constructs/core@2.79.0":
+  version "2.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-solutions-constructs/core/-/core-2.79.0.tgz#c5a0767516d2c26b2bd93702ea6883e77e973cee"
+  integrity sha512-EblYQ5YI0ha5FJwFY60yokHSXz4mk+25e88EgWb7tzxJp4Zhd+BQU70MlcJ6J9vLyUJI55wOVxTWDlmVTy2Lzw==
   dependencies:
     constructs "^10.0.0"
     deep-diff "^1.0.2"
@@ -3192,9 +3192,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001688:
-  version "1.0.30001705"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001705.tgz#dc3510bcdef261444ca944b7be9c8d0bb7fafeef"
-  integrity sha512-S0uyMMiYvA7CxNgomYBwwwPUnWzFD83f3B1ce5jHUfHTH//QL6hHsreI8RVC5606R4ssqravelYO5TU6t8sEyg==
+  version "1.0.30001706"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001706.tgz#902c3f896f4b2968031c3a546ab2ef8b465a2c8f"
+  integrity sha512-3ZczoTApMAZwPKYWmwVbQMFpXBDds3/0VciVoUwPUbldlYyVLmRVuRs/PcUZtHpbLRpzzDvrvnFuREsGt6lUug==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -5915,9 +5915,9 @@ npmlog@^7.0.0:
     set-blocking "^2.0.0"
 
 nwsapi@^2.2.12:
-  version "2.2.18"
-  resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.18.tgz#3c4d7927e1ef4d042d319438ecfda6cd81b7ee41"
-  integrity sha512-p1TRH/edngVEHVbwqWnxUViEmq5znDvyB+Sik5cmuLpGOIfDf/39zLiq3swPF8Vakqn+gvNiOQAZu8djYlQILA==
+  version "2.2.19"
+  resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.19.tgz#586660f7c24c34691907002309a8dc28064c9c0b"
+  integrity sha512-94bcyI3RsqiZufXjkr3ltkI86iEl+I7uiHVDtcq9wJUTwYQJ5odHDeSzkkrRzi80jJ8MaeZgqKjH1bAWAFw9bA==
 
 object-hash@^2.2.0:
   version "2.2.0"
