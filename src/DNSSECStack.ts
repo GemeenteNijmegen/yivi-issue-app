@@ -3,8 +3,8 @@ import { aws_route53 as Route53, Stack, StackProps, aws_ssm as SSM } from 'aws-c
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { Configurable } from './Configuration';
-import { importProjectHostedZone } from './Util';
 import { Statics } from './statics';
+import { importProjectHostedZone } from './Util';
 
 export interface DNSSECStackProps extends StackProps, Configurable {}
 

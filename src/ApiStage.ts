@@ -9,9 +9,9 @@ import { DNSSECStack } from './DNSSECStack';
 import { DNSStack } from './DNSStack';
 import { KeyStack } from './keystack';
 import { SessionsStack } from './SessionsStack';
+import { Statics } from './statics';
 import { UsEastCertificateStack } from './UsEastStack';
 import { WafStack } from './WafStack';
-import { Statics } from './statics';
 
 export interface ApiStageProps extends StageProps, Configurable {}
 

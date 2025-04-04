@@ -22,9 +22,9 @@ import { StatisticsFunction } from './app/statistics/statistics-function';
 import { Configurable } from './Configuration';
 import { DynamoDbReadOnlyPolicy } from './iam/dynamodb-readonly-policy';
 import { SessionsTable } from './SessionsTable';
+import { Statics } from './statics';
 import { Statistics } from './Statistics';
 import { AppDomainUtil } from './Util';
-import { Statics } from './statics';
 
 export interface ApiStackProps extends StackProps, Configurable {
   sessionsTable: SessionsTable;
