@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import { SessionsTable } from './SessionsTable';
 import { Statics } from './statics';
 
+
 export interface SessionStackProps extends StackProps {
   key?: KMS.Key;
 }

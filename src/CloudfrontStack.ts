@@ -31,8 +31,8 @@ import { HttpOrigin, S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { Configurable } from './Configuration';
-import { Statics } from './statics';
 import { AppDomainUtil } from './Util';
+import { Statics } from './statics';
 
 export interface CloudFrontStackProps extends StackProps, Configurable {
   /**

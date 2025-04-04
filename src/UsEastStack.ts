@@ -8,8 +8,8 @@ import {
 import { Alarm, ComparisonOperator } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 import { Configurable, Configuration } from './Configuration';
-import { Statics } from './statics';
 import { AppDomainUtil, importProjectHostedZone } from './Util';
+import { Statics } from './statics';
 
 export interface UsEastCertificateStackProps extends StackProps, Configurable {}
 
