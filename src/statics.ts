@@ -3,19 +3,23 @@ export abstract class Statics {
   static readonly sessionTableName: string = 'yivi-issue-sessions';
 
   // Statistics
-  static readonly ssmStatisticsLogGroup: string = '/cdk/yivi-issue-app/statistics/logs/log-group-name';
-  static readonly ssmTickenLogGroup: string = '/cdk/yivi-issue-app/ticken/logs/log-group-name';
+  static readonly ssmStatisticsLogGroup: string =
+    '/cdk/yivi-issue-app/statistics/logs/log-group-name';
+  static readonly ssmTickenLogGroup: string =
+    '/cdk/yivi-issue-app/ticken/logs/log-group-name';
 
   /**
    * IAM params
    */
   static readonly iamAccountId: string = '098799052470';
-  static readonly ssmReadOnlyRoleArn: string = '/cdk/yivi-issue-app/role-readonly-arn';
+  static readonly ssmReadOnlyRoleArn: string =
+    '/cdk/yivi-issue-app/role-readonly-arn';
 
   /**
    * Authentication URL base, used in auth and login lambda
    */
-  static readonly ssmAuthUrlBaseParameter: string = '/cdk/yivi-issue-app/authUrlBase';
+  static readonly ssmAuthUrlBaseParameter: string =
+    '/cdk/yivi-issue-app/authUrlBase';
   /**
    * OpenID Connect client ID (sent in URL as querystring-param, not secret)
    */
@@ -28,28 +32,31 @@ export abstract class Statics {
   /**
    * OpenID Connect secret name
    */
-  static readonly secretOIDCClientSecret: string = '/cdk/yivi-issue-app/oidc-clientsecret';
+  static readonly secretOIDCClientSecret: string =
+    '/cdk/yivi-issue-app/oidc-clientsecret';
 
   /**
    * Certificate private key for mTLS
    */
-  static readonly secretMTLSPrivateKey: string = '/cdk/yivi-issue-app/mtls-privatekey';
+  static readonly secretMTLSPrivateKey: string =
+    '/cdk/yivi-issue-app/mtls-privatekey';
 
   /**
    * Certificate for mTLS
    */
-  static readonly ssmMTLSClientCert: string = '/cdk/yivi-issue-app/mtls-clientcert';
+  static readonly ssmMTLSClientCert: string =
+    '/cdk/yivi-issue-app/mtls-clientcert';
 
   /**
-    * Root CA for mTLS (PKIO root)
-    */
+   * Root CA for mTLS (PKIO root)
+   */
   static readonly ssmMTLSRootCA: string = '/cdk/yivi-issue-app/mtls-rootca';
 
   /**
    * BRP API endpoint
    */
-  static readonly ssmBrpApiEndpointUrl: string = '/cdk/yivi-issue-app/brp-api-url';
-
+  static readonly ssmBrpApiEndpointUrl: string =
+    '/cdk/yivi-issue-app/brp-api-url';
 
   /**
    * Route53 Zone ID and name for csp-nijmegen.nl in this account.
@@ -60,17 +67,22 @@ export abstract class Statics {
    * We need both because a lookup using fromHostedZoneId fails when adding new records,
    * this returns an incomplete iHostedZone (without name).
    */
-  static readonly cspRootZoneId: string = '/gemeente-nijmegen/formio/hostedzone/id';
-  static readonly cspRootZoneName: string = '/gemeente-nijmegen/formFio/hostedzone/name';
+  static readonly cspRootZoneId: string =
+    '/gemeente-nijmegen/formio/hostedzone/id';
+  static readonly cspRootZoneName: string =
+    '/gemeente-nijmegen/formFio/hostedzone/name';
 
   // Managed in dns-managment project:
   // Below references the new hosted zone separeted from webformulieren
-  static readonly accountRootHostedZonePath: string = '/gemeente-nijmegen/account/hostedzone';
-  static readonly accountRootHostedZoneId: string = '/gemeente-nijmegen/account/hostedzone/id';
-  static readonly accountRootHostedZoneName: string = '/gemeente-nijmegen/account/hostedzone/name';
+  static readonly accountRootHostedZonePath: string =
+    '/gemeente-nijmegen/account/hostedzone';
+  static readonly accountRootHostedZoneId: string =
+    '/gemeente-nijmegen/account/hostedzone/id';
+  static readonly accountRootHostedZoneName: string =
+    '/gemeente-nijmegen/account/hostedzone/name';
   // The KSM key parameters for each account
-  static readonly ssmAccountDnsSecKmsKey: string = '/gemeente-nijmegen/account/dnssec/kmskey/arn';
-
+  static readonly ssmAccountDnsSecKmsKey: string =
+    '/gemeente-nijmegen/account/dnssec/kmskey/arn';
 
   /**
    * Route53 Zone ID and name for the zone for YIVI issue app. decouples stacks to not pass
@@ -81,33 +93,40 @@ export abstract class Statics {
   static readonly ssmZoneName: string = '/cdk/yivi-issue-app/zone/name';
 
   static readonly certificatePath: string = '/cdk/yivi-issue-app/certificates';
-  static readonly certificateArn: string = '/cdk/yivi-issue-app/certificates/certificate-arn';
+  static readonly certificateArn: string =
+    '/cdk/yivi-issue-app/certificates/certificate-arn';
 
   static readonly ssmApiGatewayId: string = '/cdk/yivi-issue-app/apigateway-id';
 
-  static readonly ssmSessionsTableArn: string = '/cdk/yivi-issue-app/sessionstable-arn';
+  static readonly ssmSessionsTableArn: string =
+    '/cdk/yivi-issue-app/sessionstable-arn';
 
   static readonly ssmDataKeyArn: string = '/cdk/yivi-issue-app/kms-datakey-arn';
 
   static readonly wafPath: string = '/cdk/yivi-issue-app/waf';
   static readonly ssmWafAclArn: string = '/cdk/yivi-issue-app/waf/acl-arn';
 
-  static readonly ssmMonitoringLambdaArn: string = '/cdk/yivi-issue-app/monitoring-lambda-arn';
+  static readonly ssmMonitoringLambdaArn: string =
+    '/cdk/yivi-issue-app/monitoring-lambda-arn';
 
-  static readonly ssmSubjectHashDiversifier: string = '/cdk/yivi-issue-app/subject/diversifier';
+  static readonly ssmSubjectHashDiversifier: string =
+    '/cdk/yivi-issue-app/subject/diversifier';
 
   /**
    * Access to the yivi issue server
    */
   static readonly ssmYiviApiHost: string = '/cdk/yivi-issue-app/yivi-api-host';
-  static readonly ssmYiviApiRegion: string = '/cdk/yivi-issue-app/yivi-api-region';
+  static readonly ssmYiviApiRegion: string =
+    '/cdk/yivi-issue-app/yivi-api-region';
   static readonly ssmYiviApiDemo: string = '/cdk/yivi-issue-app/yivi-api-demo';
-  static readonly secretYiviApiAccessKeyId: string = '/cdk/yivi-issue-app/yivi-api-access-key-id';
-  static readonly secretYiviApiSecretKey: string = '/cdk/yivi-issue-app/yivi-api-secret-key';
+  static readonly secretYiviApiAccessKeyId: string =
+    '/cdk/yivi-issue-app/yivi-api-access-key-id';
+  static readonly secretYiviApiSecretKey: string =
+    '/cdk/yivi-issue-app/yivi-api-secret-key';
   static readonly secretYiviApiKey: string = '/cdk/yivi-issue-app/yivi-api-key';
 
-  static readonly codeStarConnectionArn: string = 'arn:aws:codestar-connections:eu-central-1:836443378780:connection/9d20671d-91bc-49e2-8680-59ff96e2ab11';
-
+  static readonly codeStarConnectionArn: string =
+    'arn:aws:codestar-connections:eu-central-1:836443378780:connection/9d20671d-91bc-49e2-8680-59ff96e2ab11';
 
   /**
    * Environments (in new lz)
@@ -126,5 +145,4 @@ export abstract class Statics {
     account: '185512167111',
     region: 'eu-central-1',
   };
-
 }
