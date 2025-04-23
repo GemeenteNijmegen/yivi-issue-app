@@ -17,7 +17,7 @@ export class StatisticsFunction extends lambda.Function {
     super(scope, id, {
       description: 'src/app/statistics/statistics.lambda.ts',
       ...props,
-      runtime: new lambda.Runtime('nodejs20.x', lambda.RuntimeFamily.NODEJS),
+      runtime: new lambda.Runtime('nodejs22.x', lambda.RuntimeFamily.NODEJS),
       handler: 'index.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../assets/app/statistics/statistics.lambda')),
     });
