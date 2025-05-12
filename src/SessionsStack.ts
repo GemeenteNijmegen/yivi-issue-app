@@ -13,7 +13,7 @@ export interface SessionStackProps extends StackProps {
  * state is maintained by relating an opaque session cookie value to this table.
  */
 export class SessionsStack extends Stack {
-  sessionsTable : SessionsTable;
+  sessionsTable: SessionsTable;
 
   constructor(scope: Construct, id: string, props: SessionStackProps) {
     super(scope, id);

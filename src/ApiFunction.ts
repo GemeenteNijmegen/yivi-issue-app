@@ -12,7 +12,7 @@ export interface ApiFunctionProps {
   table: aws_dynamodb.ITable;
   tablePermissions: string;
   applicationUrlBase?: string;
-  environment?: {[key: string]: string};
+  environment?: { [key: string]: string };
   monitorFilterPattern?: IFilterPattern;
   readOnlyRole?: Role;
   logRetention?: RetentionDays;
@@ -29,7 +29,7 @@ export class ApiFunction<T extends Lambda.Function> extends Construct {
     scope: Construct,
     id: string,
     props: ApiFunctionProps,
-    apiFunction: {new(scope2: Construct, id2:string, props2?: Lambda.FunctionProps): T},
+    apiFunction: { new(scope2: Construct, id2:string, props2?: Lambda.FunctionProps): T },
   ) {
     super(scope, id);
     const retention = props.logRetention ? props.logRetention : RetentionDays.ONE_MONTH;
