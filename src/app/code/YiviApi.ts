@@ -1,6 +1,6 @@
 import { AWS } from '@gemeentenijmegen/utils';
 import { aws4Interceptor } from 'aws4-axios';
-import axios, { Axios } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { DigidLoa, loaToString } from './DigiDLoa';
 
 export class YiviApi {
@@ -73,7 +73,7 @@ export class YiviApi {
     return this.doSignedPostRequest('session', yiviIssueRequest, 'De YIVI sessie kon niet worden gestart.');
   }
 
-  private getSigningClient(): Axios {
+  private getSigningClient(): AxiosInstance {
     if (!this.credentials.accessKeyId || !this.credentials.secretAccessKey) {
       throw new Error('API client is not configured propperly, missing AWS signature credentials');
     }
