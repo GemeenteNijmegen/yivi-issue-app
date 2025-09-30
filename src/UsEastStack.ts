@@ -1,11 +1,11 @@
 import { createHash } from 'crypto';
-import { EndpointHealthCheck } from '@pepperize/cdk-route53-health-check';
 import {
   aws_certificatemanager as CertificateManager,
+  aws_route53 as Route53,
   aws_ssm as SSM, Stack,
   StackProps,
 } from 'aws-cdk-lib';
-import { Alarm, ComparisonOperator } from 'aws-cdk-lib/aws-cloudwatch';
+import { Alarm, ComparisonOperator, Metric } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 import { Configurable, Configuration } from './Configuration';
 import { Statics } from './statics';
@@ -60,15 +60,29 @@ export class UsEastCertificateStack extends Stack {
     const domains = AppDomainUtil.getAlternativeDomainNames(configuration) ?? [];
     for (const domain of domains) {
       const hash = createHash('md5').update(domain).digest('base64').substring(0, 5);
-      const healthCheck = new EndpointHealthCheck(this, `healthcheck-${hash}`, {
-        domainName: domain,
-        resourcePath: '/login',
-        searchString: 'Voeg gegevens toe',
+
+      // Create health check using native CDK Route53 construct
+      const healthCheck = new Route53.CfnHealthCheck(this, `healthcheck-${hash}`, {
+        healthCheckConfig: {
+          type: 'HTTPS',
+          fullyQualifiedDomainName: domain,
+          port: 443,
+          resourcePath: '/login',
+          searchString: 'Voeg gegevens toe',
+          requestInterval: 30,
+          failureThreshold: 3,
+        },
       });
 
       new Alarm(this, `healthcheck-alarm-${hash}`, {
         alarmName: `yivi-issue-app-healthcheck-${hash}${configuration.criticality.increase().alarmSuffix()}`,
-        metric: healthCheck.metricHealthCheckStatus(),
+        metric: new Metric({
+          metricName: 'HealthCheckStatus',
+          namespace: 'AWS/Route53',
+          dimensionsMap: {
+            HealthCheckId: healthCheck.attrHealthCheckId,
+          },
+        }),
         comparisonOperator: ComparisonOperator.LESS_THAN_THRESHOLD,
         threshold: 1,
         evaluationPeriods: 1,
