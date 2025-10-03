@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch-logs": "^3.901.0",
-    "@aws-sdk/client-dynamodb": "^3.901.0",
+    "@aws-sdk/client-dynamodb": "^3.902.0",
     "@aws-sdk/client-secrets-manager": "^3.901.0",
     "@aws-sdk/client-ses": "^3.901.0",
     "@aws-sdk/client-ssm": "^3.901.0",
@@ -84,7 +84,7 @@
     "@gemeentenijmegen/aws-constructs": "^0.0.43",
     "@gemeentenijmegen/dnssec-record": "^0.0.37",
     "@gemeentenijmegen/session": "^0.0.30",
-    "@gemeentenijmegen/utils": "^0.0.37",
+    "@gemeentenijmegen/utils": "^0.0.38",
     "@pepperize/cdk-route53-health-check": "^0.0.754",
     "@privacybydesign/yivi-frontend": "^0.2.1",
     "@types/aws-lambda": "^8.10.153",
