@@ -87,7 +87,7 @@
     "@gemeentenijmegen/utils": "^0.0.38",
     "@pepperize/cdk-route53-health-check": "^0.0.754",
     "@privacybydesign/yivi-frontend": "^0.2.1",
-    "@types/aws-lambda": "^8.10.153",
+    "@types/aws-lambda": "^8.10.155",
     "@types/cookie": "^0.6.0",
     "@types/mustache": "^4.2.6",
     "aws-cdk-lib": "^2.22.0",
