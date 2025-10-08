@@ -78,7 +78,7 @@
     "@aws-sdk/client-secrets-manager": "^3.901.0",
     "@aws-sdk/client-ses": "^3.901.0",
     "@aws-sdk/client-ssm": "^3.901.0",
-    "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.93.0",
+    "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.94.0",
     "@gemeentenijmegen/apiclient": "^0.0.35",
     "@gemeentenijmegen/apigateway-http": "^0.0.31",
     "@gemeentenijmegen/aws-constructs": "^0.0.43",
