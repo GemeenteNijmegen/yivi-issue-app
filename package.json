@@ -94,7 +94,7 @@
     "aws4-axios": "3.4.0",
     "axios": "^1.12.2",
     "cdk-remote-stack": "^2.1.0",
-    "chart.js": "^4.5.0",
+    "chart.js": "^4.5.1",
     "constructs": "^10.0.5",
     "cookie": "^0.7.2",
     "dotenv": "^16.6.1",
