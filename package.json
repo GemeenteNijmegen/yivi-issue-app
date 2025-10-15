@@ -47,7 +47,7 @@
     "projen": "npx projen"
   },
   "devDependencies": {
-    "@gemeentenijmegen/projen-project-type": "^1.11.4",
+    "@gemeentenijmegen/projen-project-type": "^1.11.5",
     "@glen/jest-raw-loader": "^2.0.0",
     "@playwright/test": "^1.56.0",
     "@stylistic/eslint-plugin": "^2",
@@ -73,17 +73,17 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.908.0",
-    "@aws-sdk/client-dynamodb": "^3.908.0",
-    "@aws-sdk/client-secrets-manager": "^3.908.0",
-    "@aws-sdk/client-ses": "^3.908.0",
-    "@aws-sdk/client-ssm": "^3.908.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.910.0",
+    "@aws-sdk/client-dynamodb": "^3.910.0",
+    "@aws-sdk/client-secrets-manager": "^3.910.0",
+    "@aws-sdk/client-ses": "^3.910.0",
+    "@aws-sdk/client-ssm": "^3.910.0",
     "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.94.0",
     "@gemeentenijmegen/apiclient": "^0.0.35",
     "@gemeentenijmegen/apigateway-http": "^0.0.31",
     "@gemeentenijmegen/aws-constructs": "^0.0.43",
-    "@gemeentenijmegen/dnssec-record": "^0.0.37",
-    "@gemeentenijmegen/session": "^0.0.30",
+    "@gemeentenijmegen/dnssec-record": "^0.0.38",
+    "@gemeentenijmegen/session": "^0.0.31",
     "@gemeentenijmegen/utils": "^0.0.38",
     "@pepperize/cdk-route53-health-check": "^0.0.754",
     "@privacybydesign/yivi-frontend": "^0.2.1",
