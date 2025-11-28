@@ -47,7 +47,7 @@
     "projen": "npx projen"
   },
   "devDependencies": {
-    "@gemeentenijmegen/projen-project-type": "^1.11.8",
+    "@gemeentenijmegen/projen-project-type": "^1.11.10",
     "@glen/jest-raw-loader": "^2.0.0",
     "@playwright/test": "^1.57.0",
     "@stylistic/eslint-plugin": "^2",
