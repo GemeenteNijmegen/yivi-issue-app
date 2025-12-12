@@ -75,7 +75,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudwatch-logs": "^3.948.0",
     "@aws-sdk/client-dynamodb": "^3.948.0",
-    "@aws-sdk/client-secrets-manager": "^3.948.0",
+    "@aws-sdk/client-secrets-manager": "^3.950.0",
     "@aws-sdk/client-ses": "^3.948.0",
     "@aws-sdk/client-ssm": "^3.948.0",
     "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.96.0",
