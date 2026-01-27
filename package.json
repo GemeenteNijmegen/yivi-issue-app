@@ -47,7 +47,6 @@
     "projen": "npx projen"
   },
   "devDependencies": {
-    "@gemeentenijmegen/projen-project-type": "^1.12.0",
     "@glen/jest-raw-loader": "^2.0.0",
     "@playwright/test": "^1.58.0",
     "@stylistic/eslint-plugin": "^2",
@@ -83,6 +82,7 @@
     "@gemeentenijmegen/apigateway-http": "^0.0.35",
     "@gemeentenijmegen/aws-constructs": "^0.0.47",
     "@gemeentenijmegen/dnssec-record": "^0.0.41",
+    "@gemeentenijmegen/projen-project-type": "^1.12.0",
     "@gemeentenijmegen/session": "^0.0.33",
     "@gemeentenijmegen/utils": "^0.0.38",
     "@pepperize/cdk-route53-health-check": "^0.0.754",

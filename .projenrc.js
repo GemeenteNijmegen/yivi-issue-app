@@ -34,6 +34,7 @@ const project = new GemeenteNijmegenCdkApp({
     '@types/aws-lambda',
     'chart.js',
     '@privacybydesign/yivi-frontend',
+    '@gemeentenijmegen/projen-project-type',
   ],
   devDeps: [
     'copyfiles',
@@ -42,7 +43,6 @@ const project = new GemeenteNijmegenCdkApp({
     '@glen/jest-raw-loader',
     'axios-mock-adapter',
     'jest-aws-client-mock',
-    '@gemeentenijmegen/projen-project-type',
     'copyfiles',
   ],
   jestOptions: {
