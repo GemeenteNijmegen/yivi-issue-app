@@ -9,9 +9,9 @@ const project = new GemeenteNijmegenCdkApp({
   deps: [
     'dotenv',
     '@aws-solutions-constructs/aws-lambda-dynamodb',
-    'cdk-remote-stack',
     '@gemeentenijmegen/dnssec-record',
     '@gemeentenijmegen/aws-constructs',
+    '@gemeentenijmegen/cross-region-parameters',
     '@pepperize/cdk-route53-health-check',
 
     // Lambda packages

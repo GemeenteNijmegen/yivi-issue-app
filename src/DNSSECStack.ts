@@ -1,12 +1,12 @@
+import { RemoteParameters } from '@gemeentenijmegen/cross-region-parameters';
 import { DnssecRecordStruct } from '@gemeentenijmegen/dnssec-record';
-import { aws_route53 as Route53, Stack, StackProps, aws_ssm as SSM } from 'aws-cdk-lib';
-import { RemoteParameters } from 'cdk-remote-stack';
+import { aws_route53 as Route53, aws_ssm as SSM, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Configurable } from './Configuration';
 import { Statics } from './statics';
 import { importProjectHostedZone } from './Util';
 
-export interface DNSSECStackProps extends StackProps, Configurable {}
+export interface DNSSECStackProps extends StackProps, Configurable { }
 
 export class DNSSECStack extends Stack {
 
