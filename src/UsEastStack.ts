@@ -1,3 +1,4 @@
+import { createHash } from 'crypto';
 import {
   aws_certificatemanager as CertificateManager,
   aws_ssm as SSM, Stack,
@@ -6,7 +7,6 @@ import {
 import { Alarm, ComparisonOperator, Metric } from 'aws-cdk-lib/aws-cloudwatch';
 import { CfnHealthCheck, HealthCheckType } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
-import { createHash } from 'crypto';
 import { Configurable, Configuration } from './Configuration';
 import { Statics } from './statics';
 import { AppDomainUtil, importProjectHostedZone } from './Util';
