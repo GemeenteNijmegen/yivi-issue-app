@@ -1,5 +1,8 @@
 import { PermissionsBoundaryAspect } from '@gemeentenijmegen/aws-constructs';
-import { Stack, StackProps, Tags, pipelines, Aspects } from 'aws-cdk-lib';
+import { getNodeVersion } from '@gemeentenijmegen/projen-project-type';
+import { Aspects, Stack, StackProps, Tags, pipelines } from 'aws-cdk-lib';
+import { BuildSpec } from 'aws-cdk-lib/aws-codebuild';
+import { PipelineType } from 'aws-cdk-lib/aws-codepipeline';
 import { ShellStep } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
 import { ApiStage } from './ApiStage';
@@ -7,7 +10,7 @@ import { Configurable, Configuration } from './Configuration';
 import { ParameterStage } from './ParameterStage';
 import { Statics } from './statics';
 
-export interface PipelineStackProps extends StackProps, Configurable {}
+export interface PipelineStackProps extends StackProps, Configurable { }
 
 export class PipelineStack extends Stack {
 
@@ -69,7 +72,6 @@ export class PipelineStack extends Stack {
       commands: [
         'yarn install --frozen-lockfile',
         'npx projen build',
-        'npx projen synth',
       ],
     });
 
@@ -77,6 +79,18 @@ export class PipelineStack extends Stack {
       pipelineName: `yivi-issue-app-${this.configuration.branchName}`,
       crossAccountKeys: true,
       synth: synthStep,
+      pipelineType: PipelineType.V1,
+      synthCodeBuildDefaults: {
+        partialBuildSpec: BuildSpec.fromObject({
+          phases: {
+            install: {
+              'runtime-versions': {
+                nodejs: getNodeVersion(),
+              },
+            },
+          },
+        }),
+      },
     });
     return pipeline;
   }
