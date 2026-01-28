@@ -1,5 +1,5 @@
+import { RemoteParameters } from '@gemeentenijmegen/cross-region-parameters';
 import * as Route53 from 'aws-cdk-lib/aws-route53';
-import { RemoteParameters } from 'cdk-remote-stack';
 import { Construct } from 'constructs';
 import { Configuration } from './Configuration';
 import { Statics } from './statics';

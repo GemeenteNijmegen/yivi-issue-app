@@ -1,17 +1,17 @@
 import { createHash } from 'crypto';
 import {
   aws_certificatemanager as CertificateManager,
-  aws_route53 as Route53,
   aws_ssm as SSM, Stack,
   StackProps,
 } from 'aws-cdk-lib';
 import { Alarm, ComparisonOperator, Metric } from 'aws-cdk-lib/aws-cloudwatch';
+import { CfnHealthCheck, HealthCheckType } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 import { Configurable, Configuration } from './Configuration';
 import { Statics } from './statics';
 import { AppDomainUtil, importProjectHostedZone } from './Util';
 
-export interface UsEastCertificateStackProps extends StackProps, Configurable {}
+export interface UsEastCertificateStackProps extends StackProps, Configurable { }
 
 export class UsEastCertificateStack extends Stack {
 
@@ -62,20 +62,20 @@ export class UsEastCertificateStack extends Stack {
       const hash = createHash('md5').update(domain).digest('base64').substring(0, 5);
 
       // Create health check using native CDK Route53 construct
-      const healthCheck = new Route53.CfnHealthCheck(this, `healthcheck-${hash}`, {
+      const healthCheck = new CfnHealthCheck(this, `healthcheck-${hash}`, {
         healthCheckConfig: {
-          type: 'HTTPS',
+          type: HealthCheckType.HTTPS_STR_MATCH,
           fullyQualifiedDomainName: domain,
           port: 443,
           resourcePath: '/login',
-          searchString: 'Voeg gegevens toe',
+          searchString: 'Inloggen Mijn Nijmegen',
           requestInterval: 30,
           failureThreshold: 3,
         },
       });
 
-      new Alarm(this, `healthcheck-alarm-${hash}`, {
-        alarmName: `yivi-issue-app-healthcheck-${hash}${configuration.criticality.increase().alarmSuffix()}`,
+      new Alarm(this, 'healthcheck-alarm', {
+        alarmName: 'mijn-nijmegen-healthcheck-critical-lvl',
         metric: new Metric({
           metricName: 'HealthCheckStatus',
           namespace: 'AWS/Route53',
@@ -87,6 +87,7 @@ export class UsEastCertificateStack extends Stack {
         threshold: 1,
         evaluationPeriods: 1,
       });
+
     }
   }
 
