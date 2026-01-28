@@ -93,7 +93,7 @@
     "@types/mustache": "^4.2.6",
     "aws-cdk-lib": "^2.22.0",
     "aws4-axios": "3.4.0",
-    "axios": "^1.13.3",
+    "axios": "^1.13.4",
     "chart.js": "^4.5.1",
     "constructs": "^10.0.5",
     "cookie": "^0.7.2",
