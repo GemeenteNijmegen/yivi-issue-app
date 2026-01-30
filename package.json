@@ -83,7 +83,7 @@
     "@gemeentenijmegen/aws-constructs": "^0.0.47",
     "@gemeentenijmegen/cross-region-parameters": "^0.0.4",
     "@gemeentenijmegen/dnssec-record": "^0.0.41",
-    "@gemeentenijmegen/projen-project-type": "^1.12.0",
+    "@gemeentenijmegen/projen-project-type": "^1.12.1",
     "@gemeentenijmegen/session": "^0.0.33",
     "@gemeentenijmegen/utils": "^0.0.38",
     "@pepperize/cdk-route53-health-check": "^0.0.754",
