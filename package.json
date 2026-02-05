@@ -72,11 +72,11 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.982.0",
-    "@aws-sdk/client-dynamodb": "^3.982.0",
-    "@aws-sdk/client-secrets-manager": "^3.982.0",
-    "@aws-sdk/client-ses": "^3.982.0",
-    "@aws-sdk/client-ssm": "^3.982.0",
+    "@aws-sdk/client-cloudwatch-logs": "^3.983.0",
+    "@aws-sdk/client-dynamodb": "^3.983.0",
+    "@aws-sdk/client-secrets-manager": "^3.983.0",
+    "@aws-sdk/client-ses": "^3.983.0",
+    "@aws-sdk/client-ssm": "^3.983.0",
     "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.98.0",
     "@gemeentenijmegen/apiclient": "^0.0.39",
     "@gemeentenijmegen/apigateway-http": "^0.0.35",
