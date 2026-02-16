@@ -68,7 +68,7 @@ export class UsEastCertificateStack extends Stack {
           fullyQualifiedDomainName: domain,
           port: 443,
           resourcePath: '/login',
-          searchString: 'Inloggen Mijn Nijmegen',
+          searchString: 'Persoonsgegevens toevoegen',
           requestInterval: 30,
           failureThreshold: 3,
         },
