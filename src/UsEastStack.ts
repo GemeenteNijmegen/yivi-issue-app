@@ -69,7 +69,7 @@ export class UsEastCertificateStack extends Stack {
           port: 443,
           resourcePath: '/login',
           searchString: 'Persoonsgegevens toevoegen',
-          requestInterval: 120,
+          requestInterval: 30,
           failureThreshold: 3,
         },
       });
