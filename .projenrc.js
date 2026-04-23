@@ -71,6 +71,9 @@ const project = new GemeenteNijmegenCdkApp({
     'test/playwright/test-results',
     'test/playwright/screenshots',
     'test/__snapshots__/*',
+    '*.csr',
+    '*.der.key',
+    '*.pem.key',
   ],
   bundlerOptions: {
     loaders: {
