@@ -2985,13 +2985,12 @@ axios-mock-adapter@^1.22.0:
     is-buffer "^2.0.5"
 
 axios@^1.13.6, axios@^1.14.1:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.14.1.tgz#2553649f2322049666871cea80a5d0d6adc700ca"
-  integrity sha512-vF/aB4vrIzLyOb2TB9gpuE8gusNHpZqk2ZZcAqSnRjW5IcY7tFSBEurD2tbakohj0Rw5xMHYwjSqOGSfr0iewA==
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.15.2.tgz#eb8fb6d30349abace6ade5b4cb4d9e8a0dc23e5b"
+  integrity sha512-wLrXxPtcrPTsNlJmKjkPnNPK2Ihe0hn0wGSaTEiHRPxwjvJwT3hKmXF4dpqxmPO9SoNb2FsYXj/xEo0gHN+D5A==
   dependencies:
     follow-redirects "^1.15.11"
     form-data "^4.0.5"
-    plain-crypto-js "^4.2.1"
     proxy-from-env "^2.1.0"
 
 babel-jest@^29.7.0:
@@ -6109,11 +6108,6 @@ pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
-
-plain-crypto-js@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/plain-crypto-js/-/plain-crypto-js-4.2.1.tgz#07d889e2dadce6f3910dcbc253317d28ca61c766"
-  integrity sha512-Wv41p4/aEMq03JjDqi0JxPYT4aoMbbQMSM8ur4QkjvjGEeuYvI7rGkqLcOZ7K1iThQGvpNvJnxRWcNodCNuEEQ==
 
 playwright-core@1.58.2:
   version "1.58.2"
