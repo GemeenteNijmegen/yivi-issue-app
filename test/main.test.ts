@@ -39,6 +39,7 @@ const config: Configuration = {
   nijmegenSubdomain: 'snapshot-tests',
   useLambdaRoleForYiviServer: true,
   criticality: new Criticality('low'),
+  useHaalCentraalBrp: false,
 };
 
 beforeAll(() => {

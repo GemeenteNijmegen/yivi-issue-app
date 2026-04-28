@@ -14,6 +14,7 @@ test('get domain names', () => {
     nijmegenSubdomain: 'test',
     useLambdaRoleForYiviServer: true,
     criticality: new Criticality('low'),
+    useHaalCentraalBrp: false,
   }, 'test.csp-nijmegen.nl');
   expect(domainNames).toContain('test.nijmegen.nl');
   expect(domainNames).toContain('test.csp-nijmegen.nl');
@@ -33,6 +34,7 @@ test('baseurl', () => {
     nijmegenSubdomain: 'test',
     useLambdaRoleForYiviServer: true,
     criticality: new Criticality('low'),
+    useHaalCentraalBrp: false,
   }, 'test.csp-nijmegen.nl');
   expect(baseurl).toContain('https://test.nijmegen.nl/');
 });
