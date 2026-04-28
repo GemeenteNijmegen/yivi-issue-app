@@ -12,6 +12,66 @@ const LANDCODE_NEDERLANDSE = '0001';
  */
 export class HaalCentraalBrpApi {
 
+  private static hasNederlandseNationaliteit(nationaliteiten?: any[]): string {
+    if (!nationaliteiten || nationaliteiten.length == 0) {
+      return 'Nee';
+    }
+    let result = 'Nee';
+    for (const nationaliteit of nationaliteiten) {
+      if (nationaliteit.type == 'Nationaliteit'
+        && nationaliteit.nationaliteit.code == LANDCODE_NEDERLANDSE) {
+        return 'Ja';
+      } else if (nationaliteit.type == 'BehandeldAlsNederlander') {
+        result = 'Behandeld als Nederlander';
+      } else if (nationaliteit.type == 'NationaliteitOnbekend') {
+        result = 'Nee';
+      }
+    }
+    return result;
+  }
+
+  private static convertGeboortedatum(input: string): string {
+    const year = input.substring(0, 4);
+    const month = input.substring(5, 7);
+    const day = input.substring(8);
+    return `${day}-${month}-${year}`;
+  }
+
+  private static achternaam(data: any): string {
+    let achternaam = data.adressering.aanschrijfwijze.naam as string;
+    achternaam = achternaam.replace(data.naam.voorletters, '');
+    if (data.naam.adellijkeTitelPredicaat) {
+      const searchMask = new RegExp(`\\s*${data.naam.adellijkeTitelPredicaat.omschrijving}\\s*`, 'ig');
+      achternaam = achternaam.replace(searchMask, ' ');
+    }
+    return achternaam.trim();
+  }
+
+  private static naam(data: any): string {
+    let naam = data.adressering.aanschrijfwijze.naam as string;
+    if (data.naam.adellijkeTitelPredicaat) {
+      const searchMask = new RegExp(`\\s*${data.naam.adellijkeTitelPredicaat.omschrijving}\\s*`, 'ig');
+      naam = naam.replace(searchMask, ' ');
+    }
+    return naam.trim();
+  }
+
+  private static huisnummer(verblijfadres: any): string {
+    const nummer = verblijfadres.huisnummer;
+    const letter = verblijfadres.huisletter;
+    const toevoeging = verblijfadres.huisnummertoevoeging;
+    if (nummer && letter && toevoeging) {
+      return `${nummer}-${letter}-${toevoeging}`;
+    }
+    if (nummer && letter) {
+      return `${nummer}-${letter}`;
+    }
+    if (nummer && toevoeging) {
+      return `${nummer}-${toevoeging}`;
+    }
+    return `${nummer}`;
+  }
+
   private endpoint: string;
   private client: ApiClient;
   private apiKey: string;
@@ -133,65 +193,5 @@ export class HaalCentraalBrpApi {
         overleden: false,
       },
     };
-  }
-
-  private static hasNederlandseNationaliteit(nationaliteiten?: any[]): string {
-    if (!nationaliteiten || nationaliteiten.length == 0) {
-      return 'Nee';
-    }
-    let result = 'Nee';
-    for (const nationaliteit of nationaliteiten) {
-      if (nationaliteit.type == 'Nationaliteit'
-        && nationaliteit.nationaliteit.code == LANDCODE_NEDERLANDSE) {
-        return 'Ja';
-      } else if (nationaliteit.type == 'BehandeldAlsNederlander') {
-        result = 'Behandeld als Nederlander';
-      } else if (nationaliteit.type == 'NationaliteitOnbekend') {
-        result = 'Nee';
-      }
-    }
-    return result;
-  }
-
-  private static convertGeboortedatum(input: string): string {
-    const year = input.substring(0, 4);
-    const month = input.substring(5, 7);
-    const day = input.substring(8);
-    return `${day}-${month}-${year}`;
-  }
-
-  private static achternaam(data: any): string {
-    let achternaam = data.adressering.aanschrijfwijze.naam as string;
-    achternaam = achternaam.replace(data.naam.voorletters, '');
-    if (data.naam.adellijkeTitelPredicaat) {
-      const searchMask = new RegExp(`\\s*${data.naam.adellijkeTitelPredicaat.omschrijving}\\s*`, 'ig');
-      achternaam = achternaam.replace(searchMask, ' ');
-    }
-    return achternaam.trim();
-  }
-
-  private static naam(data: any): string {
-    let naam = data.adressering.aanschrijfwijze.naam as string;
-    if (data.naam.adellijkeTitelPredicaat) {
-      const searchMask = new RegExp(`\\s*${data.naam.adellijkeTitelPredicaat.omschrijving}\\s*`, 'ig');
-      naam = naam.replace(searchMask, ' ');
-    }
-    return naam.trim();
-  }
-
-  private static huisnummer(verblijfadres: any): string {
-    const nummer = verblijfadres.huisnummer;
-    const letter = verblijfadres.huisletter;
-    const toevoeging = verblijfadres.huisnummertoevoeging;
-    if (nummer && letter && toevoeging) {
-      return `${nummer}-${letter}-${toevoeging}`;
-    }
-    if (nummer && letter) {
-      return `${nummer}-${letter}`;
-    }
-    if (nummer && toevoeging) {
-      return `${nummer}-${toevoeging}`;
-    }
-    return `${nummer}`;
   }
 }
