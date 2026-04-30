@@ -59,6 +59,18 @@ export abstract class Statics {
     '/cdk/yivi-issue-app/brp-api-url';
 
   /**
+   * Haal Centraal BRP API endpoint
+   */
+  static readonly ssmHaalCentraalBrpApiEndpointUrl: string =
+    '/cdk/yivi-issue-app/hc-brp-api-url';
+
+  /**
+   * Haal Centraal BRP API key
+   */
+  static readonly secretHaalCentraalBrpApiKey: string =
+    '/cdk/yivi-issue-app/hc-brp-api-key';
+
+  /**
    * Route53 Zone ID and name for csp-nijmegen.nl in this account.
    * NB: This depends on the eform-project existing and having set this parameter!
    * We need to use this zone for domain validation purposes. We need to be able to

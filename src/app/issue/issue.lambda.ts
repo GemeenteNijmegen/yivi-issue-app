@@ -4,6 +4,7 @@ import { ApiClient } from '@gemeentenijmegen/apiclient';
 import { Response } from '@gemeentenijmegen/apigateway-http';
 import { Context } from 'aws-lambda';
 import { BrpApi } from './BrpApi';
+import { HaalCentraalBrpApi } from './HaalCentraalBrpApi';
 import { IssueRequestHandler } from './issueRequestHandler';
 import { YiviApi } from '../code/YiviApi';
 
@@ -12,7 +13,15 @@ const logsClient = new CloudWatchLogsClient({ region: process.env.AWS_REGION });
 
 const brpClient = new ApiClient();
 const yiviApi = new YiviApi();
-const brpApi = new BrpApi(brpClient);
+
+const useHaalCentraal = process.env.USE_HAAL_CENTRAAL_BRP === 'yes';
+let brpApi: BrpApi | HaalCentraalBrpApi;
+if (useHaalCentraal) {
+  console.info('Using Haal Centraal BRP API');
+  brpApi = new HaalCentraalBrpApi(brpClient);
+} else {
+  brpApi = new BrpApi(brpClient);
+}
 
 async function init() {
   const promiseBrpClient = brpClient.init();
@@ -47,4 +56,4 @@ export async function handler(event: any, context: Context) {
     console.error(err);
     return Response.error();
   }
-};
+}

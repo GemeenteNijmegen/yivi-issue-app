@@ -4,6 +4,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Response } from '@gemeentenijmegen/apigateway-http';
 import { Session } from '@gemeentenijmegen/session';
 import { BrpApi } from './BrpApi';
+import { HaalCentraalBrpApi } from './HaalCentraalBrpApi';
 import * as template from './issue.mustache';
 import { loaToString } from '../code/DigiDLoa';
 import { LogsUtil } from '../code/LogsUtil';
@@ -18,14 +19,14 @@ export interface Params {
 export interface IssueRequestHandlerProps {
   dynamoDBClient: DynamoDBClient;
   logsClient: CloudWatchLogsClient;
-  brpApi: BrpApi;
+  brpApi: BrpApi | HaalCentraalBrpApi;
   yiviApi: YiviApi;
 }
 
 export class IssueRequestHandler {
   private readonly dynamoDBClient: DynamoDBClient;
   private readonly logsClient: CloudWatchLogsClient;
-  private readonly brpApi: BrpApi;
+  private readonly brpApi: BrpApi | HaalCentraalBrpApi;
   private readonly yiviApi: YiviApi;
 
   constructor(props: IssueRequestHandlerProps) {
