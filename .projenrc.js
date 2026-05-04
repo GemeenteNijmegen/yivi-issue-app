@@ -1,6 +1,8 @@
 const { GemeenteNijmegenCdkApp } = require('@gemeentenijmegen/projen-project-type');
+const { NodePackageManager } = require('projen/lib/javascript');
 
 const project = new GemeenteNijmegenCdkApp({
+  packageManager: NodePackageManager.NPM,
   cdkVersion: '2.22.0',
   defaultReleaseBranch: 'production',
   majorVersion: 1,
