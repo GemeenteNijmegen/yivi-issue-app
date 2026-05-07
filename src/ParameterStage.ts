@@ -118,5 +118,33 @@ export class ssmParamsConstruct extends Construct {
       stringValue: '-',
       parameterName: Statics.ssmSubjectHashDiversifier,
     });
+
+    /**
+     * Haal Centraal BRP parameters
+     */
+    new SSM.StringParameter(this, 'ssm_hc_brp_1', {
+      stringValue: '-',
+      parameterName: Statics.ssmHaalCentraalBrpApiEndpointUrl,
+    });
+
+    new SSM.StringParameter(this, 'ssm_hc_mtls_cert', {
+      stringValue: '-',
+      parameterName: Statics.ssmHaalCentraalMTLSClientCert,
+    });
+
+    new SSM.StringParameter(this, 'ssm_hc_mtls_ca', {
+      stringValue: '-',
+      parameterName: Statics.ssmHaalCentraalMTLSRootCA,
+    });
+
+    new SecretsManager.Secret(this, 'secret_hc_mtls_key', {
+      secretName: Statics.secretHaalCentraalMTLSPrivateKey,
+      description: 'Haal Centraal mTLS certificate private key',
+    });
+
+    new SecretsManager.Secret(this, 'secret_hc_brp_api_key', {
+      secretName: Statics.secretHaalCentraalBrpApiKey,
+      description: 'Haal Centraal BRP API key',
+    });
   }
 }

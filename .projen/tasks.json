@@ -279,7 +279,7 @@
       "description": "Install project dependencies and update lockfile (non-frozen)",
       "steps": [
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         }
       ]
     },
@@ -296,7 +296,7 @@
       "description": "Install project dependencies using frozen lockfile",
       "steps": [
         {
-          "exec": "yarn install --check-files --frozen-lockfile"
+          "exec": "npm ci"
         }
       ]
     },
@@ -443,13 +443,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@18 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@glen/jest-raw-loader,@playwright/test,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jest-aws-client-mock,ts-jest,ts-node,typescript,@aws-sdk/client-cloudwatch-logs,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-sdk/client-ses,@aws-sdk/client-ssm,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/dnssec-record,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@pepperize/cdk-route53-health-check,@privacybydesign/yivi-frontend,@types/aws-lambda,@types/cookie,@types/mustache,aws4-axios,axios,chart.js,cookie,dotenv,mustache,openid-client"
+          "exec": "npx npm-check-updates@20 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@glen/jest-raw-loader,@playwright/test,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jest-aws-client-mock,projen,ts-jest,ts-node,typescript,@aws-sdk/client-cloudwatch-logs,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-sdk/client-ses,@aws-sdk/client-ssm,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/dnssec-record,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@pepperize/cdk-route53-health-check,@privacybydesign/yivi-frontend,@types/aws-lambda,@types/cookie,@types/mustache,aws4-axios,axios,chart.js,cookie,dotenv,mustache,openid-client"
         },
         {
-          "exec": "yarn install --check-files"
+          "exec": "npm install"
         },
         {
-          "exec": "yarn upgrade @glen/jest-raw-loader @playwright/test @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-client-mock axios-mock-adapter commit-and-tag-version copyfiles esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-aws-client-mock jest-junit projen ts-jest ts-node typescript @aws-sdk/client-cloudwatch-logs @aws-sdk/client-dynamodb @aws-sdk/client-secrets-manager @aws-sdk/client-ses @aws-sdk/client-ssm @aws-solutions-constructs/aws-lambda-dynamodb @gemeentenijmegen/apiclient @gemeentenijmegen/apigateway-http @gemeentenijmegen/aws-constructs @gemeentenijmegen/cross-region-parameters @gemeentenijmegen/dnssec-record @gemeentenijmegen/projen-project-type @gemeentenijmegen/session @gemeentenijmegen/utils @pepperize/cdk-route53-health-check @privacybydesign/yivi-frontend @types/aws-lambda @types/cookie @types/mustache aws-cdk-lib aws4-axios axios chart.js constructs cookie dotenv mustache openid-client"
+          "exec": "npm update @glen/jest-raw-loader @playwright/test @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-client-mock axios-mock-adapter commit-and-tag-version copyfiles esbuild eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-aws-client-mock jest-junit projen ts-jest ts-node typescript @aws-sdk/client-cloudwatch-logs @aws-sdk/client-dynamodb @aws-sdk/client-secrets-manager @aws-sdk/client-ses @aws-sdk/client-ssm @aws-solutions-constructs/aws-lambda-dynamodb @gemeentenijmegen/apiclient @gemeentenijmegen/apigateway-http @gemeentenijmegen/aws-constructs @gemeentenijmegen/cross-region-parameters @gemeentenijmegen/dnssec-record @gemeentenijmegen/projen-project-type @gemeentenijmegen/session @gemeentenijmegen/utils @pepperize/cdk-route53-health-check @privacybydesign/yivi-frontend @types/aws-lambda @types/cookie @types/mustache aws-cdk-lib aws4-axios axios chart.js constructs cookie dotenv mustache openid-client"
         },
         {
           "exec": "npx projen"

@@ -55,7 +55,7 @@ export class PipelineStack extends Stack {
         ENVIRONMENT: this.configuration.branchName,
       },
       commands: [
-        'yarn install --frozen-lockfile',
+        'npm ci',
         'npx playwright install',
         'npx playwright install-deps',
         'npx playwright test',
