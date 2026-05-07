@@ -22,12 +22,7 @@ async function init() {
 
   if (useHaalCentraal) {
     console.info('Using Haal Centraal BRP API');
-    const brpClient = await ApiClient.fromParameterStore(
-      process.env.HC_MTLS_CLIENT_CERT_NAME!,
-      process.env.HC_MTLS_ROOT_CA_NAME!,
-      process.env.HC_MTLS_PRIVATE_KEY_ARN!,
-    );
-    brpApi = new HaalCentraalBrpApi(brpClient);
+    brpApi = new HaalCentraalBrpApi();
   } else {
     const brpClient = new ApiClient();
     await brpClient.init();
