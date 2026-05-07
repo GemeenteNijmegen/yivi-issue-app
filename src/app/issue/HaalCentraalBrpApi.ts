@@ -86,7 +86,7 @@ export class HaalCentraalBrpApi {
     if (!process.env.HC_BRP_API_URL) {
       throw new Error('Could not initialize Haal Centraal BRP api: HC_BRP_API_URL is not set');
     }
-    this.endpoint = process.env.HC_BRP_API_URL;
+    this.endpoint = await AWS.getParameter(process.env.HC_BRP_API_URL);
     if (process.env.HC_BRP_API_KEY_ARN) {
       this.apiKey = await AWS.getSecret(process.env.HC_BRP_API_KEY_ARN);
     }
