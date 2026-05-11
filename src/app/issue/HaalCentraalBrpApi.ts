@@ -1,15 +1,9 @@
-import { ApiClient } from '@gemeentenijmegen/apiclient';
+import https from 'https';
 import { AWS, Bsn } from '@gemeentenijmegen/utils';
+import axios, { AxiosInstance } from 'axios';
 
 const LANDCODE_NEDERLANDSE = '0001';
 
-/**
- * Haal Centraal BRP API implementatie.
- *
- * Bevraagt de Haal Centraal BRP Personen Bevragen API en
- * transformeert het antwoord naar het interne BRP data formaat
- * dat door YiviApi wordt verwacht.
- */
 export class HaalCentraalBrpApi {
 
   private static hasNederlandseNationaliteit(nationaliteiten?: any[]): string {
@@ -72,67 +66,66 @@ export class HaalCentraalBrpApi {
     return `${nummer}`;
   }
 
+  private client: AxiosInstance;
   private endpoint: string;
-  private client: ApiClient;
-  private apiKey: string;
 
-  constructor(client: ApiClient) {
-    this.client = client;
+  constructor() {
+    this.client = axios.create();
     this.endpoint = '';
-    this.apiKey = '';
   }
 
   async init() {
-    if (!process.env.HC_BRP_API_URL) {
-      throw new Error('Could not initialize Haal Centraal BRP api: HC_BRP_API_URL is not set');
+    if (!process.env.HC_BRP_API_URL || !process.env.HC_MTLS_CLIENT_CERT_NAME || !process.env.HC_MTLS_PRIVATE_KEY_ARN) {
+      throw new Error('Could not initialize Haal Centraal BRP api: missing required env vars');
     }
-    this.endpoint = await AWS.getParameter(process.env.HC_BRP_API_URL);
-    if (process.env.HC_BRP_API_KEY_ARN) {
-      this.apiKey = await AWS.getSecret(process.env.HC_BRP_API_KEY_ARN);
+
+    const [endpoint, cert, key] = await Promise.all([
+      AWS.getParameter(process.env.HC_BRP_API_URL),
+      AWS.getParameter(process.env.HC_MTLS_CLIENT_CERT_NAME),
+      AWS.getSecret(process.env.HC_MTLS_PRIVATE_KEY_ARN),
+    ]);
+
+    const apiKey = process.env.HC_BRP_API_KEY_ARN
+      ? await AWS.getSecret(process.env.HC_BRP_API_KEY_ARN)
+      : '';
+
+    this.endpoint = endpoint;
+
+    const headers: Record<string, string> = { 'Content-type': 'application/json' };
+    if (apiKey) {
+      headers['X-API-KEY'] = apiKey;
     }
+
+    this.client = axios.create({
+      headers,
+      httpsAgent: new https.Agent({ cert, key }),
+      timeout: 2000,
+    });
   }
 
   async getBrpData(bsn: string) {
     try {
       const aBsn = new Bsn(bsn);
-      const requestBody = {
+      const response = await this.client.post(this.endpoint, {
         type: 'RaadpleegMetBurgerservicenummer',
         burgerservicenummer: [aBsn.bsn],
         fields: [
-          'naam',
-          'geboorte',
-          'adressering',
-          'leeftijd',
-          'verblijfplaats',
-          'nationaliteiten',
-          'geslacht',
-          'gemeenteVanInschrijving',
-          'overlijden',
+          'naam', 'geboorte', 'adressering', 'leeftijd',
+          'verblijfplaats', 'nationaliteiten', 'geslacht',
+          'gemeenteVanInschrijving', 'overlijden',
         ],
-      };
+      });
 
-      const headers: Record<string, string> = {
-        'Content-type': 'application/json',
-      };
-      if (this.apiKey) {
-        headers['X-API-KEY'] = this.apiKey;
-      }
-
-      const data = await this.client.postData(this.endpoint, requestBody, headers);
-
+      const data = response.data;
       if (!data?.personen || data.personen.length === 0) {
         throw new Error('Het ophalen van persoonsgegevens is misgegaan.');
       }
 
       const persoon = data.personen[0];
 
-      // Overleden check (zit in de API response als overlijden.datum)
       if (persoon.overlijden?.datum) {
         throw new Error('Persoon lijkt overleden');
       }
-
-      // opschortingBijhouding komt automatisch mee indien van toepassing
-      // https://developer.rvig.nl/brp-api/personen/features/opschorting-bijhouding/fields/
       if (persoon.opschortingBijhouding) {
         const code = persoon.opschortingBijhouding.reden.code;
         if (code == 'O') {
@@ -140,25 +133,19 @@ export class HaalCentraalBrpApi {
         }
         throw new Error('Bijhouding opgeschort');
       }
-
       if (persoon.verblijfplaats?.type != 'Adres') {
         throw new Error('Verblijfplaats is geen adres');
       }
 
       return this.transformToInternalFormat(persoon, aBsn.bsn);
     } catch (error: any) {
-      console.error('Haal Centraal BRP API:', error.message);
       return { error: error.message };
     }
   }
 
-  /**
-   * Transformeer Haal Centraal response naar het interne IRMA BRP formaat.
-   */
   private transformToInternalFormat(persoon: any, bsn: string) {
     const leeftijd = persoon.leeftijd;
-    const verblijfplaats = persoon.verblijfplaats;
-    const verblijfadres = verblijfplaats.verblijfadres;
+    const verblijfadres = persoon.verblijfplaats.verblijfadres;
 
     return {
       Persoon: {

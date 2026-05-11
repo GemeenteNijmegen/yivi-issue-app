@@ -132,11 +132,6 @@ export class ssmParamsConstruct extends Construct {
       parameterName: Statics.ssmHaalCentraalMTLSClientCert,
     });
 
-    new SSM.StringParameter(this, 'ssm_hc_mtls_ca', {
-      stringValue: '-',
-      parameterName: Statics.ssmHaalCentraalMTLSRootCA,
-    });
-
     new SecretsManager.Secret(this, 'secret_hc_mtls_key', {
       secretName: Statics.secretHaalCentraalMTLSPrivateKey,
       description: 'Haal Centraal mTLS certificate private key',
