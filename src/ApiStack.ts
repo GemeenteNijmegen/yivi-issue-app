@@ -184,13 +184,10 @@ export class ApiStack extends Stack {
 
       const secretHcMtlsKey = aws_secretsmanager.Secret.fromSecretNameV2(this, 'hc-mtls-key', Statics.secretHaalCentraalMTLSPrivateKey);
       const hcMtlsCertParam = SSM.StringParameter.fromStringParameterName(this, 'hc-mtls-cert', Statics.ssmHaalCentraalMTLSClientCert);
-      const hcMtlsCaParam = SSM.StringParameter.fromStringParameterName(this, 'hc-mtls-ca', Statics.ssmHaalCentraalMTLSRootCA);
       secretHcMtlsKey.grantRead(issueFunction.lambda);
       hcMtlsCertParam.grantRead(issueFunction.lambda);
-      hcMtlsCaParam.grantRead(issueFunction.lambda);
       issueFunction.lambda.addEnvironment('HC_MTLS_PRIVATE_KEY_ARN', secretHcMtlsKey.secretArn);
       issueFunction.lambda.addEnvironment('HC_MTLS_CLIENT_CERT_NAME', Statics.ssmHaalCentraalMTLSClientCert);
-      issueFunction.lambda.addEnvironment('HC_MTLS_ROOT_CA_NAME', Statics.ssmHaalCentraalMTLSRootCA);
     }
 
     const statisticsFunction = new ApiFunction(this, 'yivi-issue-statistics-function', {
