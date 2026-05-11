@@ -78,6 +78,15 @@ export interface Configuration {
    * Wanneer true wordt de Haal Centraal API gebruikt voor het ophalen van persoonsgegevens.
    */
   readonly useHaalCentraalBrp: boolean;
+
+  /**
+   * The batch size for SD-JWT VC issuance. When set, the sdJwtBatchSize field
+   * is added to each credential in the issuance request, enabling SD-JWT VC
+   * issuance alongside Idemix. When undefined, no SD-JWT VCs are issued.
+   *
+   * @see https://docs.yivi.app/sdjwtvc-issuance/#step-4-update-issuance-session-request
+   */
+  readonly sdJwtBatchSize?: number;
 }
 
 export function getConfiguration(branchName: string): Configuration {
@@ -105,6 +114,7 @@ const configurations: { [name: string]: Configuration } = {
     },
     criticality: new Criticality('medium'),
     useHaalCentraalBrp: true, // Haal Centraal BRP API aan op acceptance
+    sdJwtBatchSize: 4,
   },
   production: {
     branchName: 'production',
@@ -123,5 +133,6 @@ const configurations: { [name: string]: Configuration } = {
     },
     criticality: new Criticality('high'),
     useHaalCentraalBrp: false, // Haal Centraal BRP API uit op productie (voorlopig)
+    sdJwtBatchSize: 4,
   },
 };

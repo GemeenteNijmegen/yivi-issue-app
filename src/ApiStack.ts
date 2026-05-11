@@ -159,6 +159,9 @@ export class ApiStack extends Stack {
         DIVERSIFYER: diversifiyer,
         USE_LAMBDA_ROLE_FOR_YIVI_SERVER: props.configuration.useLambdaRoleForYiviServer ? 'yes' : 'no',
         USE_HAAL_CENTRAAL_BRP: props.configuration.useHaalCentraalBrp ? 'yes' : 'no',
+        ...(props.configuration.sdJwtBatchSize && {
+          SD_JWT_BATCH_SIZE: props.configuration.sdJwtBatchSize.toString(),
+        }),
         ...(props.configuration.useHaalCentraalBrp && {
           HC_BRP_API_URL: Statics.ssmHaalCentraalBrpApiEndpointUrl,
         }),
