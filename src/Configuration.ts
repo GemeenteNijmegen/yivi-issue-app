@@ -114,7 +114,7 @@ const configurations: { [name: string]: Configuration } = {
     },
     criticality: new Criticality('medium'),
     useHaalCentraalBrp: true, // Haal Centraal BRP API aan op acceptance
-    sdJwtBatchSize: 4,
+    sdJwtBatchSize: 50, // Yivi default value
   },
   production: {
     branchName: 'production',
@@ -133,6 +133,6 @@ const configurations: { [name: string]: Configuration } = {
     },
     criticality: new Criticality('high'),
     useHaalCentraalBrp: false, // Haal Centraal BRP API uit op productie (voorlopig)
-    sdJwtBatchSize: 4,
+    sdJwtBatchSize: 50, // Yivi default value
   },
 };
