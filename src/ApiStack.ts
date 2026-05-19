@@ -159,11 +159,9 @@ export class ApiStack extends Stack {
         DIVERSIFYER: diversifiyer,
         USE_LAMBDA_ROLE_FOR_YIVI_SERVER: props.configuration.useLambdaRoleForYiviServer ? 'yes' : 'no',
         USE_HAAL_CENTRAAL_BRP: props.configuration.useHaalCentraalBrp ? 'yes' : 'no',
+        HC_BRP_API_URL: Statics.ssmHaalCentraalBrpApiEndpointUrl,
         ...(props.configuration.sdJwtBatchSize && {
           SD_JWT_BATCH_SIZE: props.configuration.sdJwtBatchSize.toString(),
-        }),
-        ...(props.configuration.useHaalCentraalBrp && {
-          HC_BRP_API_URL: Statics.ssmHaalCentraalBrpApiEndpointUrl,
         }),
       },
       lambdaInsightsExtensionArn: insightsArn,
@@ -177,21 +175,19 @@ export class ApiStack extends Stack {
     statisticsLogGroup.grantWrite(issueFunction.lambda);
     tickenLogGroup.grantWrite(issueFunction.lambda);
 
-    if (props.configuration.useHaalCentraalBrp) {
-      const secretHcBrpApiKey = aws_secretsmanager.Secret.fromSecretNameV2(this, 'hc-brp-api-key', Statics.secretHaalCentraalBrpApiKey);
-      secretHcBrpApiKey.grantRead(issueFunction.lambda);
-      issueFunction.lambda.addEnvironment('HC_BRP_API_KEY_ARN', secretHcBrpApiKey.secretArn);
+    const secretHcBrpApiKey = aws_secretsmanager.Secret.fromSecretNameV2(this, 'hc-brp-api-key', Statics.secretHaalCentraalBrpApiKey);
+    secretHcBrpApiKey.grantRead(issueFunction.lambda);
+    issueFunction.lambda.addEnvironment('HC_BRP_API_KEY_ARN', secretHcBrpApiKey.secretArn);
 
-      const hcBrpUrlParam = SSM.StringParameter.fromStringParameterName(this, 'hc-brp-url', Statics.ssmHaalCentraalBrpApiEndpointUrl);
-      hcBrpUrlParam.grantRead(issueFunction.lambda);
+    const hcBrpUrlParam = SSM.StringParameter.fromStringParameterName(this, 'hc-brp-url', Statics.ssmHaalCentraalBrpApiEndpointUrl);
+    hcBrpUrlParam.grantRead(issueFunction.lambda);
 
-      const secretHcMtlsKey = aws_secretsmanager.Secret.fromSecretNameV2(this, 'hc-mtls-key', Statics.secretHaalCentraalMTLSPrivateKey);
-      const hcMtlsCertParam = SSM.StringParameter.fromStringParameterName(this, 'hc-mtls-cert', Statics.ssmHaalCentraalMTLSClientCert);
-      secretHcMtlsKey.grantRead(issueFunction.lambda);
-      hcMtlsCertParam.grantRead(issueFunction.lambda);
-      issueFunction.lambda.addEnvironment('HC_MTLS_PRIVATE_KEY_ARN', secretHcMtlsKey.secretArn);
-      issueFunction.lambda.addEnvironment('HC_MTLS_CLIENT_CERT_NAME', Statics.ssmHaalCentraalMTLSClientCert);
-    }
+    const secretHcMtlsKey = aws_secretsmanager.Secret.fromSecretNameV2(this, 'hc-mtls-key', Statics.secretHaalCentraalMTLSPrivateKey);
+    const hcMtlsCertParam = SSM.StringParameter.fromStringParameterName(this, 'hc-mtls-cert', Statics.ssmHaalCentraalMTLSClientCert);
+    secretHcMtlsKey.grantRead(issueFunction.lambda);
+    hcMtlsCertParam.grantRead(issueFunction.lambda);
+    issueFunction.lambda.addEnvironment('HC_MTLS_PRIVATE_KEY_ARN', secretHcMtlsKey.secretArn);
+    issueFunction.lambda.addEnvironment('HC_MTLS_CLIENT_CERT_NAME', Statics.ssmHaalCentraalMTLSClientCert);
 
     const statisticsFunction = new ApiFunction(this, 'yivi-issue-statistics-function', {
       description: 'Statistics-lambd voor de YIVI issue-applicatie.',
