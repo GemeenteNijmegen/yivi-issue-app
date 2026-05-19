@@ -1,0 +1,46 @@
+{
+    "registration": "https://portal.yivi.app/organizations/gemeente",
+    "organization": {
+        "legalName": {
+            "en": "Municipality of Nijmegen",
+            "nl": "Gemeente Nijmegen"
+        }
+    },
+    "ap": {
+        "authorized": [
+            {
+                "credential": "pbdf.gemeente.personalData",
+                "attributes": [
+                    "initials",
+                    "firstnames",
+                    "prefix",
+                    "familyname",
+                    "fullname",
+                    "gender",
+                    "nationality",
+                    "surname",
+                    "dateofbirth",
+                    "cityofbirth",
+                    "countryofbirth",
+                    "over12",
+                    "over16",
+                    "over18",
+                    "over21",
+                    "over65",
+                    "bsn",
+                    "digidlevel"
+                ]
+            },
+            {
+                "credential": "pbdf.gemeente.address",
+                "attributes": [
+                    "street",
+                    "houseNumber",
+                    "zipcode",
+                    "municipality",
+                    "city"
+                ]
+            }
+        ]
+    }
+}

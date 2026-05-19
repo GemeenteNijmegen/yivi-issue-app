@@ -24,6 +24,13 @@
     "strictPropertyInitialization": false,
     "stripInternal": true,
     "target": "ES2022",
+    "types": [
+      "jest",
+      "node",
+      "aws-lambda",
+      "cookie",
+      "mustache"
+    ],
     "moduleResolution": "nodenext",
     "typeRoots": [
       "./node_modules/@types"

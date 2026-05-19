@@ -141,6 +141,9 @@ export class YiviApi {
     const date5ytd = Math.floor(new Date().setFullYear(currentYear + 5) / 1000);
     const date1ytd = Math.floor(new Date().setFullYear(currentYear + 1) / 1000);
 
+    // SD-JWT VC batch size (when set, enables SD-JWT VC issuance alongside Idemix)
+    const sdJwtBatchSize = process.env.SD_JWT_BATCH_SIZE ? parseInt(process.env.SD_JWT_BATCH_SIZE, 10) : undefined;
+
     // Return the issue request
     return {
       type: 'issuing',
@@ -155,6 +158,7 @@ export class YiviApi {
             municipality: brpData.Persoon.Adres.Gemeente,
             city: brpData.Persoon.Adres.Woonplaats,
           },
+          ...(sdJwtBatchSize && { sdJwtBatchSize }),
         },
         {
           credential: this.demo ? 'irma-demo.gemeente.personalData' : 'pbdf.gemeente.personalData',
@@ -175,6 +179,7 @@ export class YiviApi {
             digidlevel: `${loaToString(loa)}`,
             ...brpData.Persoon.ageLimits,
           },
+          ...(sdJwtBatchSize && { sdJwtBatchSize }),
         },
       ],
     };

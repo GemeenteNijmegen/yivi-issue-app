@@ -35,6 +35,9 @@ src/app/static-resources/packages/*
 test/playwright/tests/report
 test/playwright/tests/results
 test/playwright/test-results
+*.csr
+*.der.key
+*.pem.key
 test-reports/junit.xml
 test/__snapshots__/*
 .env

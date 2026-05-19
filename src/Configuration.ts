@@ -72,6 +72,21 @@ export interface Configuration {
    * Denotes the average level of criticality used by the application
    */
   readonly criticality: Criticality;
+
+  /**
+   * Flag om Haal Centraal BRP API te gebruiken i.p.v. de standaard IRMA BRP API.
+   * Wanneer true wordt de Haal Centraal API gebruikt voor het ophalen van persoonsgegevens.
+   */
+  readonly useHaalCentraalBrp: boolean;
+
+  /**
+   * The batch size for SD-JWT VC issuance. When set, the sdJwtBatchSize field
+   * is added to each credential in the issuance request, enabling SD-JWT VC
+   * issuance alongside Idemix. When undefined, no SD-JWT VCs are issued.
+   *
+   * @see https://docs.yivi.app/sdjwtvc-issuance/#step-4-update-issuance-session-request
+   */
+  readonly sdJwtBatchSize?: number;
 }
 
 export function getConfiguration(branchName: string): Configuration {
@@ -98,6 +113,8 @@ const configurations: { [name: string]: Configuration } = {
       _9699982ccd3555be4d8f02a487a0287e: '_1d0dce24777d3d1257367aa28e6816c7.fgsdscwdjl.acm-validations.aws',
     },
     criticality: new Criticality('medium'),
+    useHaalCentraalBrp: true, // Haal Centraal BRP API aan op acceptance
+    sdJwtBatchSize: 50, // Yivi default value
   },
   production: {
     branchName: 'production',
@@ -115,5 +132,7 @@ const configurations: { [name: string]: Configuration } = {
       _e573bcd00b0f468178ff502aeb92eae3: '_df939a5caaba3eef9055e611864019d2.yghrkwvzvz.acm-validations.aws.',
     },
     criticality: new Criticality('high'),
+    useHaalCentraalBrp: false, // Haal Centraal BRP API uit op productie (voorlopig)
+    // sdJwtBatchSize: 50, // Yivi default value, disabled voor prod voor nu.
   },
 };
