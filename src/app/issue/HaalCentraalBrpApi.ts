@@ -104,7 +104,6 @@ export class HaalCentraalBrpApi {
   }
 
   async getBrpData(bsn: string) {
-    const start = Date.now();
     try {
       const aBsn = new Bsn(bsn);
       const response = await this.client.post(this.endpoint, {
@@ -116,43 +115,40 @@ export class HaalCentraalBrpApi {
           'gemeenteVanInschrijving', 'overlijden',
         ],
       });
-
-      const duration = Date.now() - start;
-      console.info(`Response received, status=${response.status}, duration=${duration}ms`);
+      console.info(`BPR: Response received, status=${response.status}`);
 
       const data = response.data;
       if (!data?.personen || data.personen.length === 0) {
-        throw new Error('Het ophalen van persoonsgegevens is misgegaan.');
+        throw new Error('BPR: Het ophalen van persoonsgegevens is misgegaan.');
       }
 
       const persoon = data.personen[0];
 
       if (persoon.overlijden?.datum) {
-        throw new Error('Persoon lijkt overleden');
+        throw new Error('BPR: Persoon lijkt overleden');
       }
       if (persoon.opschortingBijhouding) {
         const code = persoon.opschortingBijhouding.reden.code;
         if (code == 'O') {
-          throw new Error('Persoon lijkt overleden');
+          throw new Error('BPR: Persoon lijkt overleden');
         }
-        throw new Error('Bijhouding opgeschort');
+        throw new Error('BPR: Bijhouding opgeschort');
       }
       if (persoon.verblijfplaats?.type != 'Adres') {
-        throw new Error(`Verblijfplaats is geen adres, type=${persoon.verblijfplaats?.type}`);
+        throw new Error(`BRP: Verblijfplaats is geen adres, type=${persoon.verblijfplaats?.type}`);
       }
 
       return this.transformToInternalFormat(persoon, aBsn.bsn);
     } catch (error: any) {
-      const duration = Date.now() - start;
 
       if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
-        console.error(`Request timeout, duration=${duration}ms`);
+        console.error(`BRP: Request timeout`);
       } else if (error.response) {
-        console.error(`Request failed, status=${error.response.status}, duration=${duration}ms`);
+        console.error(`BRP: Request failed, status=${error.response.status}`);
       } else if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND' || error.message?.includes('Network Error')) {
-        console.error(`Network error, message=${error.message}, duration=${duration}ms`);
+        console.error(`BRP: Network error, message=${error.message}`);
       } else {
-        console.error(`${error.message}, duration=${duration}ms`);
+        console.error(`${error.message}`);
       }
 
       return { error: error.message };
