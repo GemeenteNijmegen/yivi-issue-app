@@ -104,6 +104,7 @@ export class HaalCentraalBrpApi {
   }
 
   async getBrpData(bsn: string) {
+    const start = Date.now();
     try {
       const aBsn = new Bsn(bsn);
       const response = await this.client.post(this.endpoint, {
@@ -115,6 +116,9 @@ export class HaalCentraalBrpApi {
           'gemeenteVanInschrijving', 'overlijden',
         ],
       });
+
+      const duration = Date.now() - start;
+      console.info(`Response received, status=${response.status}, duration=${duration}ms`);
 
       const data = response.data;
       if (!data?.personen || data.personen.length === 0) {
@@ -134,11 +138,23 @@ export class HaalCentraalBrpApi {
         throw new Error('Bijhouding opgeschort');
       }
       if (persoon.verblijfplaats?.type != 'Adres') {
-        throw new Error('Verblijfplaats is geen adres');
+        throw new Error(`Verblijfplaats is geen adres, type=${persoon.verblijfplaats?.type}`);
       }
 
       return this.transformToInternalFormat(persoon, aBsn.bsn);
     } catch (error: any) {
+      const duration = Date.now() - start;
+
+      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+        console.error(`Request timeout, duration=${duration}ms`);
+      } else if (error.response) {
+        console.error(`Request failed, status=${error.response.status}, duration=${duration}ms`);
+      } else if (error.code === 'ECONNREFUSED' || error.code === 'ENOTFOUND' || error.message?.includes('Network Error')) {
+        console.error(`Network error, message=${error.message}, duration=${duration}ms`);
+      } else {
+        console.error(`${error.message}, duration=${duration}ms`);
+      }
+
       return { error: error.message };
     }
   }
