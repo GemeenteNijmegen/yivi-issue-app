@@ -1,6 +1,6 @@
+import https from 'https';
 import { AWS, Bsn } from '@gemeentenijmegen/utils';
 import axios, { AxiosInstance } from 'axios';
-import https from 'https';
 
 const LANDCODE_NEDERLANDSE = '0001';
 
