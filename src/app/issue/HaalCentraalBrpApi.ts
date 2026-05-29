@@ -131,7 +131,7 @@ export class HaalCentraalBrpApi {
         if (code == 'O') {
           throw new Error('Persoon lijkt overleden');
         }
-        throw new Error('Bijhouding opgeschort');
+        throw new Error(`Bijhouding opgeschort met reden ${persoon.opschortingBijhouding.reden.code}`); // Zie https://developer.rvig.nl/lo-brp/LO-BRP/#e6720
       }
       if (persoon.verblijfplaats?.type != 'Adres') {
         throw new Error('Verblijfplaats is geen adres');
