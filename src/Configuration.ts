@@ -133,6 +133,6 @@ const configurations: { [name: string]: Configuration } = {
     },
     criticality: new Criticality('high'),
     useHaalCentraalBrp: true,
-    // sdJwtBatchSize: 50, // Yivi default value, disabled voor prod voor nu.
+    sdJwtBatchSize: 50, // Yivi default value
   },
 };
