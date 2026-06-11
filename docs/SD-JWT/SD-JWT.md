@@ -31,7 +31,7 @@ Voorbeeld acceptatie:
 $ AP_JSON_FILE=app.json ISSUER_HOST=issue.yivi-brp-accp.csp-nijmegen.nl C=NL ST=Gelderland L=Nijmegen O="Gemeente Nijmegen" bash gen.sh
 ```
 
-De .key bestanden worden opgeslagen in Bitwarden en lokaal verwijderd. Ook de CSR kan weg nadat de certificaten binnen zijn.
+De .key bestanden worden opgeslagen in AWS Secrets Manager en lokaal verwijderd. Ook de CSR kan weg nadat de certificaten binnen zijn.
 
 ## Yivi Server
 
