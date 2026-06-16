@@ -124,17 +124,22 @@ export class HaalCentraalBrpApi {
       const persoon = data.personen[0];
 
       if (persoon.overlijden?.datum) {
-        throw new Error('Persoon lijkt overleden');
+        console.warn('Persoon lijkt overleden');
+        return { error: 'Persoon lijkt overleden', warning: true };
       }
       if (persoon.opschortingBijhouding) {
         const code = persoon.opschortingBijhouding.reden.code;
         if (code == 'O') {
-          throw new Error('Persoon lijkt overleden');
+          console.warn('Persoon lijkt overleden');
+          return { error: 'Persoon lijkt overleden', warning: true };
         }
-        throw new Error(`Bijhouding opgeschort met reden ${persoon.opschortingBijhouding.reden.code}`); // Zie https://developer.rvig.nl/lo-brp/LO-BRP/#e6720
+        const message = `Bijhouding opgeschort met reden ${persoon.opschortingBijhouding.reden.code}`; // Zie https://developer.rvig.nl/lo-brp/LO-BRP/#e6720
+        console.warn(message);
+        return { error: message, warning: true };
       }
       if (persoon.verblijfplaats?.type != 'Adres') {
-        throw new Error('Verblijfplaats is geen adres');
+        console.warn('Verblijfplaats is geen adres');
+        return { error: 'Verblijfplaats is geen adres', warning: true };
       }
 
       return this.transformToInternalFormat(persoon, aBsn.bsn);
