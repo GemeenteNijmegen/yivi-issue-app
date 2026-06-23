@@ -31,9 +31,19 @@ Voorbeeld acceptatie:
 $ AP_JSON_FILE=app.json ISSUER_HOST=issue.yivi-brp-accp.csp-nijmegen.nl C=NL ST=Gelderland L=Nijmegen O="Gemeente Nijmegen" bash gen.sh
 ```
 
-De .key bestanden worden opgeslagen in Bitwarden en lokaal verwijderd. Ook de CSR kan weg nadat de certificaten binnen zijn.
+De .key bestanden worden opgeslagen in AWS Secrets Manager en lokaal verwijderd. Ook de CSR kan weg nadat de certificaten binnen zijn.
 
 ## Yivi Server
-De overgang naar SD-JWT VC betekent ook wijzigingen in de Yivi server.
 
-TODO
+De overgang naar SD-JWT VC betekent ook wijzigingen in de Yivi server. Zonder correcte configuratie aan de server kant zal het `sdJwtBatchSize` veld in de issuance request genegeerd worden en worden er alleen Idemix credentials uitgegeven.
+
+### Vereisten
+
+1. **irmago versie ≥ 0.19** Oudere versies ondersteunen geen SD-JWT VC issuance.
+2. **Issuer certificaat** Het SD-JWT VC issuer certificaat moet beschikbaar zijn in een `certs` directory, met een bestandsnaam die overeenkomt met de issuer identifier uit het scheme (bijv. `pbdf.gemeente.pem`).
+3. **Private key** De bijbehorende private key moet in een aparte `privkeys` directory staan (bijv. `pbdf.gemeente.pem`).
+4. **Server configuratie** De paden naar de `certs` en `privkeys` directories moeten geconfigureerd zijn op de IRMA server (via `config.json`, command line parameters, of environment variables).
+
+### Meer informatie
+
+De configuratie en deployment van de Yivi server zelf wordt beheerd in een aparte repository: https://github.com/GemeenteNijmegen/yivi-issue-server
