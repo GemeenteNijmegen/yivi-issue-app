@@ -128,12 +128,18 @@ export class HaalCentraalBrpApi {
         return { error: 'Persoon lijkt overleden', warning: true };
       }
       if (persoon.opschortingBijhouding) {
-        const code = persoon.opschortingBijhouding.reden.code;
+        // Opschorting redencodes (https://developer.rvig.nl/lo-brp/LO-BRP/#e6720):
+        // O = Overlijden
+        // E = Emigratie (adresgegevens niet meer actueel)
+        // M = Ministerieel besluit
+        // R = Research/fout (foutieve inschrijving)
+        // Bij alle codes blokkeren we uitgifte: de persoonsgegevens zijn niet betrouwbaar genoeg.
+        const code = persoon.opschortingBijhouding?.reden?.code;
         if (code == 'O') {
           console.warn('Persoon lijkt overleden');
           return { error: 'Persoon lijkt overleden', warning: true };
         }
-        const message = `Bijhouding opgeschort met reden ${persoon.opschortingBijhouding.reden.code}`; // Zie https://developer.rvig.nl/lo-brp/LO-BRP/#e6720
+        const message = `Bijhouding opgeschort met reden ${code ?? 'onbekend'}`; // Zie https://developer.rvig.nl/lo-brp/LO-BRP/#e6720
         console.warn(message);
         return { error: message, warning: true };
       }
