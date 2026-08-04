@@ -413,7 +413,7 @@ describe('HaalCentraalBrpApi', () => {
       expect(result.error).toContain('overleden');
     });
 
-    test('returns error when opschortingBijhouding with other reason', async () => {
+    test('returns error when opschortingBijhouding with reason E (emigratie)', async () => {
       const response = getHaalCentraalExampleResponse();
       response.personen[0].opschortingBijhouding = { reden: { code: 'E', omschrijving: 'Emigratie' } };
 
@@ -422,7 +422,88 @@ describe('HaalCentraalBrpApi', () => {
 
       const result: any = await api.getBrpData('900026236');
       expect(result).toHaveProperty('error');
+      expect(result.warning).toBe(true);
       expect(result.error).toContain('opgeschort');
+      expect(result.error).toContain('E');
+    });
+
+    test('returns error when opschortingBijhouding with reason M (ministerieel besluit)', async () => {
+      const response = getHaalCentraalExampleResponse();
+      response.personen[0].opschortingBijhouding = { reden: { code: 'M', omschrijving: 'Ministerieel besluit' } };
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).toHaveProperty('error');
+      expect(result.warning).toBe(true);
+      expect(result.error).toContain('opgeschort');
+      expect(result.error).toContain('M');
+    });
+
+    test('returns error when opschortingBijhouding with reason R (research/fout)', async () => {
+      const response = getHaalCentraalExampleResponse();
+      response.personen[0].opschortingBijhouding = { reden: { code: 'R', omschrijving: 'Research' } };
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).toHaveProperty('error');
+      expect(result.warning).toBe(true);
+      expect(result.error).toContain('opgeschort');
+      expect(result.error).toContain('R');
+    });
+
+    test('returns error when opschortingBijhouding has no reden object', async () => {
+      const response = getHaalCentraalExampleResponse();
+      response.personen[0].opschortingBijhouding = {};
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).toHaveProperty('error');
+      expect(result.warning).toBe(true);
+      expect(result.error).toContain('onbekend');
+    });
+
+    test('returns error when opschortingBijhouding.reden has no code', async () => {
+      const response = getHaalCentraalExampleResponse();
+      response.personen[0].opschortingBijhouding = { reden: {} };
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).toHaveProperty('error');
+      expect(result.warning).toBe(true);
+      expect(result.error).toContain('onbekend');
+    });
+
+    test('succeeds when overlijden key is present but without datum', async () => {
+      const response = getHaalCentraalExampleResponse();
+      response.personen[0].overlijden = {};
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).not.toHaveProperty('error');
+      expect(result.Persoon).toBeDefined();
+    });
+
+    test('succeeds when neither overlijden nor opschortingBijhouding is present', async () => {
+      const response = getHaalCentraalExampleResponse();
+      delete response.personen[0].overlijden;
+      delete response.personen[0].opschortingBijhouding;
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).not.toHaveProperty('error');
+      expect(result.Persoon).toBeDefined();
     });
 
     test('returns error when verblijfplaats is not Adres', async () => {

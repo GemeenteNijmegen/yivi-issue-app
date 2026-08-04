@@ -66,9 +66,12 @@ export class IssueRequestHandler {
       await LogsUtil.logToCloudWatch(this.logsClient, 'TICK: BRP', process.env.TICKEN_LOG_GROUP_NAME, process.env.TICKEN_LOG_STREAM_NAME);
       naam = brpData?.Persoon?.Persoonsgegevens?.Naam;
       if (brpData.error || !naam) {
-        error = 'Het ophalen van uw persoonsgegevens is mis gegaan. Probeer het later opnieuw.';
-        if (brpData.error?.includes('duurt te lang')) {
+        if (brpData.warning) {
+          error = 'Het lukt nu niet om uw gegevens in Yivi te zetten. Dit komt omdat uw inschrijving in de Basisregistratie Personen (BRP) op \'Niet actief\' staat. Neem hierover contact op met de gemeente waar u ingeschreven bent.';
+        } else if (brpData.error?.includes('duurt te lang')) {
           error = 'Het ophalen van uw persoonsgegevens duurde te lang. Probeer het later opnieuw.';
+        } else {
+          error = 'Het ophalen van uw persoonsgegevens is mis gegaan. Probeer het later opnieuw.';
         }
       }
     }
