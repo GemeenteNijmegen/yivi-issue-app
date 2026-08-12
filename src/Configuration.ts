@@ -50,11 +50,6 @@ export interface Configuration {
    */
   readonly cnameRecords?: { [key: string]: string };
 
-  /**
-   * Set no mail records in DNS hostedzone
-   * When true, add txt with spf (sender policy framework) en mx 0 records signaling no mail
-   */
-  readonly noMailRecords?: boolean;
 
   /**
    * If the issue lambda uses the demo scheme or the production scheme.
@@ -118,7 +113,6 @@ const configurations: { [name: string]: Configuration } = {
     cnameRecords: {
       _9699982ccd3555be4d8f02a487a0287e: '_1d0dce24777d3d1257367aa28e6816c7.fgsdscwdjl.acm-validations.aws',
     },
-    noMailRecords: true,
     criticality: new Criticality('medium'),
     useHaalCentraalBrp: true, // Haal Centraal BRP API aan op acceptance
     sdJwtBatchSize: 50, // Yivi default value
@@ -138,7 +132,6 @@ const configurations: { [name: string]: Configuration } = {
     cnameRecords: {
       _e573bcd00b0f468178ff502aeb92eae3: '_df939a5caaba3eef9055e611864019d2.yghrkwvzvz.acm-validations.aws.',
     },
-    noMailRecords: true,
     criticality: new Criticality('high'),
     useHaalCentraalBrp: true,
     sdJwtBatchSize: 50, // Yivi default value
