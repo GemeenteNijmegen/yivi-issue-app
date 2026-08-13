@@ -50,6 +50,7 @@ export interface Configuration {
    */
   readonly cnameRecords?: { [key: string]: string };
 
+
   /**
    * If the issue lambda uses the demo scheme or the production scheme.
    * Note: shoud never be false except in prod.
