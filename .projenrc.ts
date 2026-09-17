@@ -107,7 +107,7 @@ const project = new GemeenteNijmegenCdkApp({
 // deduping it with our own axios dependency and breaks axios-mock-adapter in tests.
 project.package.addPackageResolutions('axios@^1.20.0');
 
-project.tasks.tryFind('lint')?.reset(
+project.tasks.tryFind('cfn-lint')?.reset(
   'cfn-lint cdk.out/**/*.template.json -i W3005 W2001 W3045',
 );
 
