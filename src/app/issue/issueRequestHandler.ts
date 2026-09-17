@@ -101,7 +101,7 @@ export class IssueRequestHandler {
       yiviFullSession: yiviFullSessionEncoded,
     };
     const html = await render(data, template.default);
-    return Response.html(html, 200, session.getCookie());
+    return Response.html(html, 200, session.getCookie({ sameSite: 'lax' }));
   }
 
   /**

@@ -25,6 +25,6 @@ export async function handleLoginRequest(params: any, dynamoDBClient: DynamoDBCl
     loaerror: params.loaerror,
   };
   const html = await render(data, template.default);
-  const newCookies = [session.getCookie()];
+  const newCookies = [session.getCookie({ sameSite: 'lax' })];
   return Response.html(html, 200, newCookies);
 }
