@@ -7,6 +7,7 @@
   "scripts": {
     "build": "projen build",
     "bump": "projen bump",
+    "bump:releasable-commits": "projen bump:releasable-commits",
     "bundle": "projen bundle",
     "bundle:app/auth/auth.lambda": "projen bundle:app/auth/auth.lambda",
     "bundle:app/auth/auth.lambda:watch": "projen bundle:app/auth/auth.lambda:watch",
@@ -20,6 +21,7 @@
     "bundle:app/statistics/statistics.lambda:watch": "projen bundle:app/statistics/statistics.lambda:watch",
     "bundle:lambdas/statistics/CalculateStatistics.lambda": "projen bundle:lambdas/statistics/CalculateStatistics.lambda",
     "bundle:lambdas/statistics/CalculateStatistics.lambda:watch": "projen bundle:lambdas/statistics/CalculateStatistics.lambda:watch",
+    "cfn-lint": "projen cfn-lint",
     "clobber": "projen clobber",
     "compile": "projen compile",
     "default": "projen default",
@@ -30,7 +32,6 @@
     "eslint": "projen eslint",
     "install:chartjs": "projen install:chartjs",
     "install:yivi-frontend": "projen install:yivi-frontend",
-    "lint": "projen lint",
     "package": "projen package",
     "post-compile": "projen post-compile",
     "post-upgrade": "projen post-upgrade",
@@ -48,7 +49,7 @@
   },
   "devDependencies": {
     "@glen/jest-raw-loader": "^2.0.0",
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "^1.63.0",
     "@stylistic/eslint-plugin": "^2",
     "@types/jest": "^29.5.14",
     "@types/node": "^18",
@@ -57,49 +58,52 @@
     "aws-cdk": "^2",
     "aws-sdk-client-mock": "^3.1.0",
     "axios-mock-adapter": "^1.22.0",
-    "commit-and-tag-version": "^12",
+    "commit-and-tag-version": "^13",
     "copyfiles": "^2.4.1",
-    "esbuild": "^0.28.0",
+    "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.32.0",
     "jest": "^29.7.0",
     "jest-aws-client-mock": "^0.0.26",
-    "jest-junit": "^16",
-    "projen": "^0.99.53",
-    "ts-jest": "^29.4.9",
+    "jest-junit": "^17",
+    "projen": "^0.103.24",
+    "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.1041.0",
-    "@aws-sdk/client-dynamodb": "^3.1041.0",
-    "@aws-sdk/client-secrets-manager": "^3.1041.0",
-    "@aws-sdk/client-ses": "^3.1041.0",
-    "@aws-sdk/client-ssm": "^3.1041.0",
-    "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.101.0",
-    "@gemeentenijmegen/apiclient": "^0.0.42",
-    "@gemeentenijmegen/apigateway-http": "^0.0.38",
-    "@gemeentenijmegen/aws-constructs": "^0.0.51",
-    "@gemeentenijmegen/cross-region-parameters": "^0.0.7",
-    "@gemeentenijmegen/dnssec-record": "^0.0.45",
-    "@gemeentenijmegen/projen-project-type": "^1.13.0",
-    "@gemeentenijmegen/session": "^0.0.36",
+    "@aws-sdk/client-cloudwatch-logs": "^3.1134.0",
+    "@aws-sdk/client-dynamodb": "^3.1134.0",
+    "@aws-sdk/client-secrets-manager": "^3.1134.0",
+    "@aws-sdk/client-ses": "^3.1134.0",
+    "@aws-sdk/client-ssm": "^3.1134.0",
+    "@aws-solutions-constructs/aws-lambda-dynamodb": "^2.104.0",
+    "@gemeentenijmegen/apiclient": "^0.0.44",
+    "@gemeentenijmegen/apigateway-http": "^0.0.40",
+    "@gemeentenijmegen/aws-constructs": "^0.0.54",
+    "@gemeentenijmegen/cross-region-parameters": "^0.0.9",
+    "@gemeentenijmegen/dnssec-record": "^0.0.48",
+    "@gemeentenijmegen/projen-project-type": "^1.16.1",
+    "@gemeentenijmegen/session": "^0.0.38",
     "@gemeentenijmegen/utils": "^0.0.38",
     "@pepperize/cdk-route53-health-check": "^0.0.755",
     "@privacybydesign/yivi-frontend": "^0.2.1",
-    "@types/aws-lambda": "^8.10.161",
+    "@types/aws-lambda": "^8.10.163",
     "@types/cookie": "^0.6.0",
     "@types/mustache": "^4.2.6",
     "aws-cdk-lib": "^2.22.0",
     "aws4-axios": "3.4.0",
-    "axios": "^1.16.0",
+    "axios": "^1.20.0",
     "chart.js": "^4.5.1",
     "constructs": "^10.5.1",
     "cookie": "^0.7.2",
     "dotenv": "^16.6.1",
     "mustache": "^4.2.0",
     "openid-client": "^5.7.1"
+  },
+  "overrides": {
+    "axios": "^1.20.0"
   },
   "devEngines": {
     "packageManager": {
@@ -130,10 +134,15 @@
       "^.+\\.[t]sx?$": [
         "ts-jest",
         {
-          "tsconfig": "tsconfig.dev.json"
+          "tsconfig": "test/tsconfig.json"
         }
       ],
-      "\\.[jt]sx?$": "ts-jest",
+      "\\.[jt]sx?$": [
+        "ts-jest",
+        {
+          "isolatedModules": true
+        }
+      ],
       "^.+\\.mustache$": "@glen/jest-raw-loader"
     },
     "testPathIgnorePatterns": [
@@ -147,7 +156,9 @@
     ],
     "testMatch": [
       "<rootDir>/@(src|test)/**/*(*.)@(spec|test).ts?(x)",
-      "<rootDir>/@(src|test)/**/__tests__/**/*.ts?(x)"
+      "<rootDir>/@(src|test)/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/@(projenrc)/**/*(*.)@(spec|test).ts?(x)",
+      "<rootDir>/@(projenrc)/**/__tests__/**/*.ts?(x)"
     ],
     "clearMocks": true,
     "collectCoverage": true,
@@ -177,5 +188,5 @@
       ]
     ]
   },
-  "//": "~~ Generated by projen. To modify, edit .projenrc.js and run \"npx projen\"."
+  "//": "~~ Generated by projen. To modify, edit .projenrc.ts and run \"npx projen\"."
 }
