@@ -73,5 +73,5 @@ async function authenticate(session: Session, claims: IdTokenClaims) {
     console.error('Insufficient OIDC claims');
     return Response.redirect('/login');
   }
-  return Response.redirect('/', 302, session.getCookie());
+  return Response.redirect('/', 302, session.getCookie({ sameSite: 'lax' }));
 }
