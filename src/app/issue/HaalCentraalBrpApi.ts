@@ -147,9 +147,20 @@ export class HaalCentraalBrpApi {
         console.warn('Verblijfplaats is geen adres');
         return { error: 'Verblijfplaats is geen adres', warning: true };
       }
+      // An incomplete date of birth (JaarDatum, JaarMaandDatum or DatumOnbekend) has no 'datum' field,
+      // and 'leeftijd' can be missing as well. We do not issue any data in that case.
+      if (!persoon.geboorte?.datum?.datum) {
+        console.warn('Geboortedatum is onvolledig');
+        return { error: 'Geboortedatum is onvolledig', incompleteBirthDate: true };
+      }
 
       return this.transformToInternalFormat(persoon, aBsn.bsn);
     } catch (error: any) {
+      // Never log the error object itself: an axios error contains the BSN, API key and mTLS private key
+      console.error('Haal Centraal BRP API:', error.message, error.code ?? '', error.response?.status ?? '');
+      if (error.code === 'ECONNABORTED') {
+        return { error: 'Het ophalen van gegevens duurt te lang.' };
+      }
       return { error: error.message };
     }
   }
