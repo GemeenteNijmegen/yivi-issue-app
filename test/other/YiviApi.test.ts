@@ -3,6 +3,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { TestUtils } from './TestUtils';
 import { DigidLoa, loaToString } from '../../src/app/code/DigiDLoa';
+import { logger } from '../../src/app/code/Logger';
 import { YiviApi } from '../../src/app/code/YiviApi';
 
 const axiosMock = new MockAdapter(axios);
@@ -19,6 +20,8 @@ beforeAll(() => {
   console.debug = jest.fn();
   console.error = jest.fn();
   console.time = jest.fn();
+  jest.spyOn(logger, 'info').mockImplementation();
+  jest.spyOn(logger, 'error').mockImplementation();
 });
 
 beforeEach(() => {
@@ -100,7 +103,7 @@ test('Check timeout Yivi API', async () => {
   const client = new YiviApi();
   client.manualInit('gw-test.nijmegen.nl', true, 'someid', 'somesecretkey', 'irma-autharizaiton-header');
   await client.startSession(TestUtils.getBrpExampleData(), DigidLoa.Substantieel);
-  expect(console.error).toHaveBeenCalledWith('timeout of 2000ms exceeded');
+  expect(logger.error).toHaveBeenCalledWith('Error while doing signed post request', expect.objectContaining({ path: 'session', code: 'ECONNABORTED', error: 'timeout of 2000ms exceeded' }));
 });
 
 test('Mapping BRP data', () => {
