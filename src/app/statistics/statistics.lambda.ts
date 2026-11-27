@@ -1,7 +1,8 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { Response } from '@gemeentenijmegen/apigateway-http';
-import { APIGatewayProxyEventV2 } from 'aws-lambda';
+import { APIGatewayProxyEventV2, Context } from 'aws-lambda';
 import { StatisticsRequestHandler } from './StatisticsRequestHandler';
+import { logger } from '../code/Logger';
 
 const dynamoDBClient = new DynamoDBClient({});
 const handler = new StatisticsRequestHandler(dynamoDBClient);
@@ -12,7 +13,8 @@ function parseEvent(event: APIGatewayProxyEventV2) {
   };
 }
 
-exports.handler = async (event: APIGatewayProxyEventV2) => {
+exports.handler = async (event: APIGatewayProxyEventV2, context: Context) => {
+  logger.addContext(context);
   try {
     const params = parseEvent(event);
     if (params.scope) {
@@ -20,7 +22,7 @@ exports.handler = async (event: APIGatewayProxyEventV2) => {
     }
     return await handler.handleStatisticsRequest();
   } catch (err) {
-    console.error(err);
+    logger.error('Unhandled error', err as Error);
     return Response.error();
   }
 };
