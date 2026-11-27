@@ -684,7 +684,7 @@
             "--peer",
             "--no-deprecated",
             "--dep=dev,prod,peer,optional",
-            "--filter=@glen/jest-raw-loader,@playwright/test,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jest-aws-client-mock,projen,ts-jest,ts-node,typescript,@aws-sdk/client-cloudwatch-logs,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-sdk/client-ses,@aws-sdk/client-ssm,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/dnssec-record,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@pepperize/cdk-route53-health-check,@privacybydesign/yivi-frontend,@types/aws-lambda,@types/cookie,@types/mustache,aws4-axios,axios,chart.js,cookie,dotenv,mustache,openid-client"
+            "--filter=@glen/jest-raw-loader,@playwright/test,@types/jest,@types/node,aws-sdk-client-mock,axios-mock-adapter,copyfiles,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,jest-aws-client-mock,projen,ts-jest,ts-node,typescript,@aws-lambda-powertools/logger,@aws-sdk/client-cloudwatch-logs,@aws-sdk/client-dynamodb,@aws-sdk/client-secrets-manager,@aws-sdk/client-ses,@aws-sdk/client-ssm,@aws-solutions-constructs/aws-lambda-dynamodb,@gemeentenijmegen/apiclient,@gemeentenijmegen/apigateway-http,@gemeentenijmegen/aws-constructs,@gemeentenijmegen/cross-region-parameters,@gemeentenijmegen/dnssec-record,@gemeentenijmegen/projen-project-type,@gemeentenijmegen/session,@gemeentenijmegen/utils,@pepperize/cdk-route53-health-check,@privacybydesign/yivi-frontend,@types/aws-lambda,@types/cookie,@types/mustache,aws4-axios,axios,chart.js,cookie,dotenv,mustache,openid-client"
           ]
         },
         {
@@ -717,6 +717,7 @@
             "ts-jest",
             "ts-node",
             "typescript",
+            "@aws-lambda-powertools/logger",
             "@aws-sdk/client-cloudwatch-logs",
             "@aws-sdk/client-dynamodb",
             "@aws-sdk/client-secrets-manager",

@@ -105,6 +105,10 @@
       "type": "override"
     },
     {
+      "name": "@aws-lambda-powertools/logger",
+      "type": "runtime"
+    },
+    {
       "name": "@aws-sdk/client-cloudwatch-logs",
       "type": "runtime"
     },

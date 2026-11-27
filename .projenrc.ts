@@ -28,6 +28,7 @@ const project = new GemeenteNijmegenCdkApp({
     '@aws-sdk/client-ssm',
     '@aws-sdk/client-ses',
     '@aws-sdk/client-cloudwatch-logs',
+    '@aws-lambda-powertools/logger',
     '@gemeentenijmegen/apiclient',
     '@gemeentenijmegen/session',
     '@gemeentenijmegen/utils',

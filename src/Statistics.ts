@@ -31,6 +31,7 @@ export class Statistics extends Construct {
       environment: {
         TABLE_NAME: table.tableName,
         LOG_GROUP: logGroup.logGroupName,
+        POWERTOOLS_SERVICE_NAME: 'calculate-statistics',
       },
       timeout: Duration.minutes(5),
     });
