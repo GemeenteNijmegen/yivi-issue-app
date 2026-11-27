@@ -45,9 +45,9 @@ async function startCalculation(scope: string, date: Date) {
 }
 
 async function calculateAnnualStatistics(date: Date) {
-  const start = new Date(date.getFullYear()-1, 0, 0, 0, 0, 0, 0); // Jan 1 last year
-  const end = new Date(date.getFullYear(), 0, 0, 0, 0, 0, 0); // Jan 1 this year
-  const dateStamp = start.toISOString().substring(0, 4); // Date stamp
+  const start = new Date(date.getFullYear()-1, 0, 1, 0, 0, 0, 0); // Jan 1 last year
+  const end = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0); // Jan 1 this year
+  const dateStamp = localDateStamp(start).substring(0, 4);
   logger.info('Storing statistics', { dateStamp });
   const count = await getStatistics(start.getTime(), end.getTime());
   await storeInDynamodb(dateStamp, count, 'year');
@@ -56,8 +56,8 @@ async function calculateAnnualStatistics(date: Date) {
 
 async function calculateMonlthyStatistics(date: Date) {
   const start = new Date(date.getFullYear(), date.getMonth()-1, 1, 0, 0, 0, 0); // First of last month
-  const end = new Date(date.getFullYear(), date.getMonth(), 0, 0, 0, 0, 0); // First of this month
-  const dateStamp = start.toISOString().substring(0, 7);
+  const end = new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0); // First of this month
+  const dateStamp = localDateStamp(start).substring(0, 7);
   logger.info('Storing statistics', { dateStamp });
   const count = await getStatistics(start.getTime(), end.getTime());
   await storeInDynamodb(dateStamp, count, 'month');
@@ -66,10 +66,15 @@ async function calculateMonlthyStatistics(date: Date) {
 async function calculateDailyStatistics(date: Date) {
   const start = new Date(date.getFullYear(), date.getMonth(), date.getDate()-1, 0, 0, 0, 0); // 00.00 yesterday
   const end = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0); // 00.00 today
-  const dateStamp = start.toISOString().substring(0, 10);
+  const dateStamp = localDateStamp(start).substring(0, 10);
   logger.info('Storing statistics', { dateStamp });
   const count = await getStatistics(start.getTime(), end.getTime());
   await storeInDynamodb(dateStamp, count, 'day');
+}
+
+// YYYY-MM-DD in local time: toISOString() is UTC and shifts local midnight to the previous day outside UTC
+function localDateStamp(date: Date) {
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
 async function storeInDynamodb(dateStemp: string, value: string, type: string) {
