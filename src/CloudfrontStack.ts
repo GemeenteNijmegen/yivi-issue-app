@@ -112,9 +112,6 @@ export class CloudfrontStack extends Stack {
       '/.well-known/security.txt',
       new HttpOrigin('nijmegen.nl'),
     );
-    cloudfrontDistribution.addBehavior('/.well-known/*', origin, {
-      viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-    });
     this.deployBucket(staticResourcesBucket, cloudfrontDistribution);
   }
 
@@ -378,7 +375,7 @@ export class CloudfrontStack extends Stack {
       sources: [aws_s3_deployment.Source.asset('./src/app/static-resources/')],
       destinationBucket: bucket,
       distribution: distribution,
-      distributionPaths: ['/static/*', '/.well-known/'],
+      distributionPaths: ['/static/*'],
     });
   }
 }
