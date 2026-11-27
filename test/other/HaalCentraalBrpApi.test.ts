@@ -506,6 +506,39 @@ describe('HaalCentraalBrpApi', () => {
       expect(result.Persoon).toBeDefined();
     });
 
+    test.each([
+      ['JaarDatum', { type: 'JaarDatum', jaar: 1970 }],
+      ['JaarMaandDatum', { type: 'JaarMaandDatum', jaar: 1970, maand: 5 }],
+      ['DatumOnbekend', { type: 'DatumOnbekend', onbekend: true }],
+      ['missing datum', undefined],
+    ])('returns no data for incomplete geboortedatum: %s', async (_name, datum) => {
+      const response = getHaalCentraalExampleResponse();
+      response.personen[0].geboorte.datum = datum;
+
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(200, response);
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result).toEqual({ error: 'Geboortedatum is onvolledig', incompleteBirthDate: true });
+    });
+
+    test('returns duurt te lang on timeout and logs the error', async () => {
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').timeout();
+
+      const result: any = await api.getBrpData('900026236');
+      expect(result.error).toContain('duurt te lang');
+      expect(console.error).toHaveBeenCalledWith('Haal Centraal BRP API:', expect.stringContaining('timeout'), 'ECONNABORTED', '');
+    });
+
+    test('logs the status of a failed request without request details', async () => {
+      const api = await getHaalCentraalBrpApi();
+      axiosMock.onPost('hc-brp-endpoint').reply(500);
+
+      await api.getBrpData('900026236');
+      expect(console.error).toHaveBeenLastCalledWith('Haal Centraal BRP API:', 'Request failed with status code 500', expect.any(String), 500);
+    });
+
     test('returns error when verblijfplaats is not Adres', async () => {
       const response = getHaalCentraalExampleResponse();
       response.personen[0].verblijfplaats = { type: 'Locatie' };

@@ -8,6 +8,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { DigidLoa } from '../../src/app/code/DigiDLoa';
 import { YiviApi } from '../../src/app/code/YiviApi';
 import { BrpApi } from '../../src/app/issue/BrpApi';
+import { HaalCentraalBrpApi } from '../../src/app/issue/HaalCentraalBrpApi';
 import { IssueRequestHandler } from '../../src/app/issue/issueRequestHandler';
 import { TestUtils } from '../other/TestUtils';
 
@@ -136,4 +137,26 @@ test('BRP API timeout', async () => {
     requestId: randomUUID(),
   }); expect(console.error).toHaveBeenCalledWith('BRP API:', 'Het ophalen van gegevens duurt te lang.');
   expect(response.body).toContain('duurde te lang');
+});
+
+test.each([
+  [{ error: 'Geboortedatum is onvolledig', incompleteBirthDate: true }, 'uw geboortedatum in de Basisregistratie Personen (BRP) niet volledig is'],
+  [{ error: 'Het ophalen van gegevens duurt te lang.' }, 'duurde te lang'],
+])('Haal Centraal BRP error shows a matching message: %o', async (brpResult, message) => {
+  const dynamoDBClient = TestUtils.getSessionStoreMock(ddbMock);
+  const logsClient = new CloudWatchLogsClient({});
+  const haalCentraalBrpApi = new HaalCentraalBrpApi();
+  jest.spyOn(haalCentraalBrpApi, 'getBrpData').mockResolvedValue(brpResult);
+
+  const handler = new IssueRequestHandler({
+    brpApi: haalCentraalBrpApi,
+    yiviApi,
+    logsClient,
+    dynamoDBClient,
+  });
+  const response = await handler.handle({
+    cookies: 'session=12345',
+    requestId: randomUUID(),
+  });
+  expect(response.body).toContain(message);
 });
