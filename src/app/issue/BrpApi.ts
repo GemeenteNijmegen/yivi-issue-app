@@ -1,5 +1,6 @@
 import { ApiClient } from '@gemeentenijmegen/apiclient';
 import { Bsn } from '@gemeentenijmegen/utils';
+import { logger } from '../code/Logger';
 
 export class BrpApi {
 
@@ -34,7 +35,7 @@ export class BrpApi {
       }
       throw new Error('Het ophalen van persoonsgegevens is misgegaan.');
     } catch (error: any) {
-      console.error('BRP API:', error.message);
+      logger.error('BRP API request failed', { error: error.message });
       return { error: error.message };
     }
   }

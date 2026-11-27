@@ -4,6 +4,7 @@ import { DynamoDBClient, GetItemCommand, GetItemCommandOutput } from '@aws-sdk/c
 import { SecretsManagerClient, GetSecretValueCommandOutput, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager';
 import { mockClient } from 'aws-sdk-client-mock';
 import { handleRequest } from '../../src/app/auth/handleRequest';
+import { logger } from '../../src/app/code/Logger';
 import { OpenIDConnect } from '../../src/app/code/OpenIDConnect';
 
 jest.mock('@gemeentenijmegen/utils/lib/AWS', () => ({
@@ -17,11 +18,14 @@ const OIDC = new OpenIDConnect();
 
 beforeAll( async () => {
 
+  jest.spyOn(logger, 'error'); // spied always: tests assert on it
   if (process.env.VERBOSETESTS!='True') {
     global.console.error = jest.fn();
     global.console.info = jest.fn();
     global.console.time = jest.fn();
     global.console.log = jest.fn();
+    jest.spyOn(logger, 'info').mockImplementation();
+    jest.spyOn(logger, 'error').mockImplementation();
   }
 
   // Set env variables
@@ -177,7 +181,7 @@ test('Incorrect state errors', async () => {
   const result = await handleRequest(params(`session=${sessionId}`, '12345', 'returnedstate'), dynamoDBClient, OIDC, logsClient);
   expect(result.statusCode).toBe(302);
   expect(result.headers?.Location).toBe('/login');
-  expect(console.error).toHaveBeenCalled();
+  expect(logger.error).toHaveBeenCalledWith('Authentication failed', expect.anything());
 });
 
 function params(cookies: string, code: string, state: string, error?: string, error_description?: string) {

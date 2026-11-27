@@ -44,6 +44,7 @@ export class ApiFunction<T extends Lambda.Function> extends Construct {
       environment: {
         APPLICATION_URL_BASE: props.applicationUrlBase || '',
         SESSION_TABLE: props.table.tableName,
+        POWERTOOLS_SERVICE_NAME: id,
         ...props.environment,
       },
     });

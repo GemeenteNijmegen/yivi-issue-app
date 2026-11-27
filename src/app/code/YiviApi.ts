@@ -2,6 +2,7 @@ import { AWS } from '@gemeentenijmegen/utils';
 import { aws4Interceptor } from 'aws4-axios';
 import axios, { AxiosInstance } from 'axios';
 import { DigidLoa, loaToString } from './DigiDLoa';
+import { logger } from './Logger';
 
 export class YiviApi {
 
@@ -40,7 +41,7 @@ export class YiviApi {
     this.apiKey = await AWS.getSecret(process.env.YIVI_API_KEY_ARN);
 
     if (process.env.USE_LAMBDA_ROLE_FOR_YIVI_SERVER === 'yes') {
-      console.info('Using lambda role credentials for YIVI API');
+      logger.info('Using lambda role credentials for YIVI API');
       this.credentials = {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? '',
@@ -97,36 +98,25 @@ export class YiviApi {
   }
 
   private async doSignedPostRequest(path: string, data: any, errorMsg: string) {
+    const start = Date.now();
     try {
       const client = this.getSigningClient();
-      console.time('request to ' + path);
       const resp = await client.post(path, data);
       if (resp.data) {
-        console.timeEnd('request to ' + path);
+        logger.info('Yivi API request', { path, durationMs: Date.now() - start });
         return resp.data;
       }
       throw Error(errorMsg);
     } catch (error: any) {
-      console.error('Error while doing signed post request for endpoint:', path);
-      console.timeEnd('request to ' + path);
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(`http status for ${path}: ${error.response?.status}`);
-          console.log('Error data:', error.response?.data);
-        } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
-          console.error(error === null || error === void 0 ? void 0 : error.code);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.error(error.message);
-        }
-      } else {
-        console.error('Non axios error occured:', error);
-      }
+      // Log fields, not the axios error itself: its config holds the signed auth headers
+      logger.error('Error while doing signed post request', {
+        path,
+        durationMs: Date.now() - start,
+        status: error?.response?.status,
+        responseData: error?.response?.data,
+        code: error?.code,
+        error: error?.message,
+      });
       return { error: errorMsg };
     }
   }

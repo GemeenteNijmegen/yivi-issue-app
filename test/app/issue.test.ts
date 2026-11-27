@@ -6,6 +6,7 @@ import { mockClient } from 'aws-sdk-client-mock';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { DigidLoa } from '../../src/app/code/DigiDLoa';
+import { logger } from '../../src/app/code/Logger';
 import { YiviApi } from '../../src/app/code/YiviApi';
 import { BrpApi } from '../../src/app/issue/BrpApi';
 import { HaalCentraalBrpApi } from '../../src/app/issue/HaalCentraalBrpApi';
@@ -34,6 +35,9 @@ beforeAll(async () => {
   console.debug = jest.fn();
   console.error = jest.fn();
   console.time = jest.fn();
+  jest.spyOn(logger, 'info').mockImplementation();
+  jest.spyOn(logger, 'warn').mockImplementation();
+  jest.spyOn(logger, 'error').mockImplementation();
 
   process.env.STATISTICS_LOG_GROUP_NAME = 'statistics-group';
   process.env.STATISTICS_LOG_STREAM_NAME = 'statistics-stream',
@@ -135,7 +139,7 @@ test('BRP API timeout', async () => {
   const response = await handler.handle({
     cookies: 'session=12345',
     requestId: randomUUID(),
-  }); expect(console.error).toHaveBeenCalledWith('BRP API:', 'Het ophalen van gegevens duurt te lang.');
+  }); expect(logger.error).toHaveBeenCalledWith('BRP API request failed', { error: 'Het ophalen van gegevens duurt te lang.' });
   expect(response.body).toContain('duurde te lang');
 });
 

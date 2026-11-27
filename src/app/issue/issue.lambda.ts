@@ -6,6 +6,7 @@ import { Context } from 'aws-lambda';
 import { BrpApi } from './BrpApi';
 import { HaalCentraalBrpApi } from './HaalCentraalBrpApi';
 import { IssueRequestHandler } from './issueRequestHandler';
+import { logger } from '../code/Logger';
 import { YiviApi } from '../code/YiviApi';
 
 const dynamoDBClient = new DynamoDBClient({ region: process.env.AWS_REGION });
@@ -21,7 +22,7 @@ async function init() {
   const promiseYiviApi = yiviApi.init();
 
   if (useHaalCentraal) {
-    console.info('Using Haal Centraal BRP API');
+    logger.info('Using Haal Centraal BRP API');
     brpApi = new HaalCentraalBrpApi();
   } else {
     const brpClient = new ApiClient();
@@ -43,6 +44,7 @@ function parseEvent(event: any, context: Context) {
 }
 
 export async function handler(event: any, context: Context) {
+  logger.addContext(context);
   try {
     await initPromise;
 
@@ -56,7 +58,7 @@ export async function handler(event: any, context: Context) {
     return await issueRequestHandler.handle(params);
 
   } catch (err) {
-    console.error(err);
+    logger.error('Unhandled error', err as Error);
     return Response.error();
   }
 }

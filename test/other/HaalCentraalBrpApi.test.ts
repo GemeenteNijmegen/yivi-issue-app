@@ -1,5 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { logger } from '../../src/app/code/Logger';
 import { HaalCentraalBrpApi } from '../../src/app/issue/HaalCentraalBrpApi';
 
 const axiosMock = new MockAdapter(axios);
@@ -17,6 +18,9 @@ beforeAll(() => {
   console.debug = jest.fn();
   console.error = jest.fn();
   console.time = jest.fn();
+  jest.spyOn(logger, 'info').mockImplementation();
+  jest.spyOn(logger, 'warn').mockImplementation();
+  jest.spyOn(logger, 'error').mockImplementation();
 
   process.env.HC_BRP_API_URL = 'hc-brp-endpoint';
   process.env.HC_MTLS_CLIENT_CERT_NAME = 'hc-cert';
@@ -528,7 +532,7 @@ describe('HaalCentraalBrpApi', () => {
 
       const result: any = await api.getBrpData('900026236');
       expect(result.error).toContain('duurt te lang');
-      expect(console.error).toHaveBeenCalledWith('Haal Centraal BRP API:', expect.stringContaining('timeout'), 'ECONNABORTED', '');
+      expect(logger.error).toHaveBeenCalledWith('Haal Centraal BRP API request failed', { error: expect.stringContaining('timeout'), code: 'ECONNABORTED', status: undefined });
     });
 
     test('logs the status of a failed request without request details', async () => {
@@ -536,7 +540,7 @@ describe('HaalCentraalBrpApi', () => {
       axiosMock.onPost('hc-brp-endpoint').reply(500);
 
       await api.getBrpData('900026236');
-      expect(console.error).toHaveBeenLastCalledWith('Haal Centraal BRP API:', 'Request failed with status code 500', expect.any(String), 500);
+      expect(logger.error).toHaveBeenLastCalledWith('Haal Centraal BRP API request failed', { error: 'Request failed with status code 500', code: undefined, status: 500 });
     });
 
     test('returns error when verblijfplaats is not Adres', async () => {

@@ -7,6 +7,7 @@ import { BrpApi } from './BrpApi';
 import { HaalCentraalBrpApi } from './HaalCentraalBrpApi';
 import * as template from './issue.mustache';
 import { loaToString } from '../code/DigiDLoa';
+import { logger } from '../code/Logger';
 import { LogsUtil } from '../code/LogsUtil';
 import render from '../code/Render';
 import { YiviApi } from '../code/YiviApi';
@@ -42,7 +43,7 @@ export class IssueRequestHandler {
     if (session.isLoggedIn() == true) {
       return this.handleLoggedinRequest(session, params.requestId);
     }
-    console.info('Redirecting to login...');
+    logger.info('Redirecting to login');
     return Response.redirect('/login');
   }
 
@@ -126,7 +127,7 @@ export class IssueRequestHandler {
         issueAttempt: { N: incrementedIssueAttempt.toString() },
       });
     } catch (err) {
-      console.log('Could not add issue statistics to session', err);
+      logger.info('Could not add issue statistics to session', err as Error);
     }
   }
 
