@@ -1,6 +1,7 @@
 import https from 'https';
 import { AWS, Bsn } from '@gemeentenijmegen/utils';
 import axios, { AxiosInstance } from 'axios';
+import { logger } from '../code/Logger';
 
 const LANDCODE_NEDERLANDSE = '0001';
 
@@ -124,7 +125,7 @@ export class HaalCentraalBrpApi {
       const persoon = data.personen[0];
 
       if (persoon.overlijden?.datum) {
-        console.warn('Persoon lijkt overleden');
+        logger.warn('Persoon lijkt overleden');
         return { error: 'Persoon lijkt overleden', warning: true };
       }
       if (persoon.opschortingBijhouding) {
@@ -136,28 +137,28 @@ export class HaalCentraalBrpApi {
         // Bij alle codes blokkeren we uitgifte: de persoonsgegevens zijn niet betrouwbaar genoeg.
         const code = persoon.opschortingBijhouding?.reden?.code;
         if (code == 'O') {
-          console.warn('Persoon lijkt overleden');
+          logger.warn('Persoon lijkt overleden');
           return { error: 'Persoon lijkt overleden', warning: true };
         }
         const message = `Bijhouding opgeschort met reden ${code ?? 'onbekend'}`; // Zie https://developer.rvig.nl/lo-brp/LO-BRP/#e6720
-        console.warn(message);
+        logger.warn('Bijhouding opgeschort', { reden: code ?? 'onbekend' });
         return { error: message, warning: true };
       }
       if (persoon.verblijfplaats?.type != 'Adres') {
-        console.warn('Verblijfplaats is geen adres');
+        logger.warn('Verblijfplaats is geen adres');
         return { error: 'Verblijfplaats is geen adres', warning: true };
       }
       // An incomplete date of birth (JaarDatum, JaarMaandDatum or DatumOnbekend) has no 'datum' field,
       // and 'leeftijd' can be missing as well. We do not issue any data in that case.
       if (!persoon.geboorte?.datum?.datum) {
-        console.warn('Geboortedatum is onvolledig');
+        logger.warn('Geboortedatum is onvolledig');
         return { error: 'Geboortedatum is onvolledig', incompleteBirthDate: true };
       }
 
       return this.transformToInternalFormat(persoon, aBsn.bsn);
     } catch (error: any) {
       // Never log the error object itself: an axios error contains the BSN, API key and mTLS private key
-      console.error('Haal Centraal BRP API:', error.message, error.code ?? '', error.response?.status ?? '');
+      logger.error('Haal Centraal BRP API request failed', { error: error.message, code: error.code, status: error.response?.status });
       if (error.code === 'ECONNABORTED') {
         return { error: 'Het ophalen van gegevens duurt te lang.' };
       }

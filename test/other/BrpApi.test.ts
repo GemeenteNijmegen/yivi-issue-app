@@ -1,6 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { TestUtils } from './TestUtils';
+import { logger } from '../../src/app/code/Logger';
 
 const axiosMock = new MockAdapter(axios);
 jest.mock('@gemeentenijmegen/utils/lib/AWS', () => ({
@@ -16,6 +17,9 @@ beforeAll(() => {
     console.debug = jest.fn();
     console.error = jest.fn();
     console.time = jest.fn();
+    jest.spyOn(logger, 'info').mockImplementation();
+    jest.spyOn(logger, 'warn').mockImplementation();
+    jest.spyOn(logger, 'error').mockImplementation();
 });
 
 beforeEach(() => {
@@ -38,7 +42,7 @@ test('Initialization and invalid bsn', async () => {
     const brpApi = await TestUtils.getBrpApi();
     axiosMock.onPost('https://example.com/brp/api/test').reply(200, TestUtils.getBrpExampleData());
     await brpApi.getBrpData('123456789');
-    expect(console.error).toHaveBeenCalledWith("BRP API:", "provided BSN does not satisfy elfproef");
+    expect(logger.error).toHaveBeenCalledWith('BRP API request failed', { error: 'provided BSN does not satisfy elfproef' });
 });
 
 test('404 response', async () => {
